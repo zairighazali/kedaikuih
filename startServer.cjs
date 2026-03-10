@@ -13,16 +13,32 @@ const rateLimit = require("express-rate-limit");
 const path = require("path");
 
 const app = express();
-const PORT = process.env.PORT || 4000;
 
 // ─── Security & middleware ────────────────────────────────────
 app.use(helmet());
 app.use(cors({
-  origin: [
-    process.env.FRONTEND_URL || "http://localhost:5173",
-    "http://localhost:4000",
-    // Add your deployed frontend URL here
-  ],
+  origin: function (origin, callback) {
+    const allowedOrigins = [
+      process.env.FRONTEND_URL,
+      process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null,
+      "http://localhost:5173",
+      "http://localhost:4000",
+    ].filter(Boolean);
+
+    // Allow requests with no origin (e.g. mobile apps, curl)
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.some(allowed => origin.startsWith(allowed))) {
+      return callback(null, true);
+    }
+
+    // Also allow any *.vercel.app subdomain for preview deployments
+    if (/\.vercel\.app$/.test(origin)) {
+      return callback(null, true);
+    }
+
+    callback(new Error(`CORS blocked for origin: ${origin}`));
+  },
   credentials: true,
 }));
 app.use(express.json());
@@ -35,10 +51,10 @@ app.use("/api/", limiter);
 app.use("/api/payment/", strictLimiter);
 
 // ─── Routes ──────────────────────────────────────────────────
-const authRoutes     = require("./server/routes/auth");
-const productRoutes  = require("./server/routes/products");
-const orderRoutes    = require("./server/routes/orders");
-const paymentRoutes  = require("./server/routes/payment");
+const authRoutes      = require("./server/routes/auth");
+const productRoutes   = require("./server/routes/products");
+const orderRoutes     = require("./server/routes/orders");
+const paymentRoutes   = require("./server/routes/payment");
 const affiliateRoutes = require("./server/routes/affiliates");
 
 app.use("/api/auth",       authRoutes);
@@ -50,16 +66,8 @@ app.use("/api/affiliates", affiliateRoutes);
 // Promo validation & settings also in auth.js but mounted at /api
 app.use("/api",            authRoutes);
 
-// ─── Serve static files from dist ─────────────────────────────
-app.use(express.static(path.join(__dirname, 'dist')));
-
 // ─── Health check ─────────────────────────────────────────────
 app.get("/health", (req, res) => res.json({ status: "ok", timestamp: new Date() }));
-
-// ─── Catch-all handler for SPA ────────────────────────────────
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
-});
 
 // ─── 404 handler ──────────────────────────────────────────────
 app.use((req, res) => res.status(404).json({ error: "Route not found" }));
@@ -72,6 +80,7 @@ app.use((err, req, res, next) => {
 
 // ─── Start server only in local development ───────────────────
 if (!process.env.VERCEL && !process.env.VERCEL_ENV) {
+  const PORT = process.env.PORT || 4000;
   app.listen(PORT, () => {
     console.log(`\n🌙 Biskut Raya API running on http://localhost:${PORT}`);
     console.log(`   Environment: ${process.env.NODE_ENV || "development"}`);
