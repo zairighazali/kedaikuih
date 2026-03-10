@@ -2,12 +2,11 @@
   "version": 2,
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "builds": [
-    {
-      "src": "startServer.cjs",
-      "use": "@vercel/node"
+  "functions": {
+    "startServer.cjs": {
+      "runtime": "nodejs20.x"
     }
-  ],
+  },
   "routes": [
     { "src": "/api/(.*)", "dest": "/startServer.cjs" },
     { "src": "/health",   "dest": "/startServer.cjs" },
