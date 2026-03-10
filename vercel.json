@@ -20,7 +20,10 @@
     {
       "source": "/api/(.*)",
       "headers": [
-        { "key": "Content-Security-Policy", "value": "" }
+        {
+  "key": "Content-Security-Policy",
+  "value": "default-src 'self'; connect-src 'self' https://kedaikuih.vercel.app/"
+}
       ]
     }
   ]
