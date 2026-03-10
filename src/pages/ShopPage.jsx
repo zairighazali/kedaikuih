@@ -9,13 +9,13 @@ import { useCart } from "../context/CartContext";
 
 const S = {
   wrap: { maxWidth: 1200, margin: "0 auto", padding: "3rem 1.5rem" },
-  grid: { display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(280px,1fr))", gap: 24 },
-  card: { background: "linear-gradient(145deg,rgba(26,10,0,.9),rgba(45,18,0,.9))", border: "1px solid rgba(139,69,19,.4)", borderRadius: 16, overflow: "hidden" },
-  cardImg: { background: "linear-gradient(135deg,rgba(139,69,19,.2),rgba(205,133,63,.1))", height: 160, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 72 },
-  cardBody: { padding: "1.2rem" },
-  tag: { background: "rgba(139,69,19,.3)", color: "#cd853f", fontSize: 10, padding: "2px 8px", borderRadius: 10 },
-  btn: (disabled) => ({ width: "100%", background: disabled ? "rgba(100,100,100,.2)" : "linear-gradient(135deg,#8B4513,#cd853f)", border: "none", color: disabled ? "#555" : "#fff", padding: 10, borderRadius: 8, cursor: disabled ? "not-allowed" : "pointer", fontFamily: "'Playfair Display',serif", fontSize: 14, fontWeight: 600, marginTop: 10 }),
-  filterBtn: (active) => ({ background: active ? "linear-gradient(135deg,#8B4513,#cd853f)" : "rgba(255,255,255,.05)", border: "1px solid rgba(139,69,19,.4)", color: active ? "#fff" : "#cd853f", padding: "6px 16px", borderRadius: 20, cursor: "pointer", fontSize: 13 }),
+  grid: { display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(300px,1fr))", gap: 28 },
+  card: { background: "rgba(255,255,255,0.95)", border: "2px solid #fce4ec", borderRadius: 20, overflow: "hidden", boxShadow: "0 8px 25px rgba(233, 30, 99, 0.1)", transition: "all 0.3s ease" },
+  cardImg: { background: "linear-gradient(135deg, rgba(233, 30, 99, 0.1), rgba(255, 183, 77, 0.1))", height: 180, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 80 },
+  cardBody: { padding: "1.5rem" },
+  tag: { background: "rgba(233, 30, 99, 0.15)", color: "#e91e63", fontSize: 11, padding: "4px 12px", borderRadius: 15, fontWeight: 600 },
+  btn: (disabled) => ({ width: "100%", background: disabled ? "rgba(100,100,100,.2)" : "linear-gradient(135deg, #e91e63, #ffb74d)", border: "none", color: disabled ? "#666" : "#fff", padding: 14, borderRadius: 25, cursor: disabled ? "not-allowed" : "pointer", fontFamily: "'Playfair Display',serif", fontSize: 15, fontWeight: 600, marginTop: 12, boxShadow: disabled ? "none" : "0 4px 15px rgba(233, 30, 99, 0.3)", transition: "all 0.3s ease" }),
+  filterBtn: (active) => ({ background: active ? "linear-gradient(135deg, #e91e63, #ffb74d)" : "rgba(255,255,255,0.9)", border: "2px solid #fce4ec", color: active ? "#fff" : "#e91e63", padding: "8px 20px", borderRadius: 25, cursor: "pointer", fontSize: 14, fontWeight: 600, transition: "all 0.3s ease", boxShadow: active ? "0 4px 15px rgba(233, 30, 99, 0.3)" : "0 2px 8px rgba(233, 30, 99, 0.1)" }),
 };
 
 function formatMYR(n) { return `RM ${Number(n).toFixed(2)}`; }
@@ -78,19 +78,19 @@ export default function ShopPage() {
   return (
     <div style={S.wrap}>
       {refCode && (
-        <div style={{ background: "rgba(34,197,94,.1)", border: "1px solid #22c55e", borderRadius: 8, padding: "10px 16px", marginBottom: 24, color: "#86efac", fontSize: 13 }}>
+        <div style={{ background: "rgba(129, 199, 132, 0.1)", border: "2px solid #81c784", borderRadius: 12, padding: "12px 20px", marginBottom: 28, color: "#81c784", fontSize: 14, fontWeight: 600 }}>
           🔗 Anda melawat melalui pautan rujukan. Anda layak mendapat diskaun eksklusif!
         </div>
       )}
 
       {/* Header + Search */}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20, flexWrap: "wrap", gap: 12 }}>
-        <h2 style={{ fontFamily: "'Playfair Display',serif", color: "#fde68a", fontSize: 28, margin: 0 }}>Koleksi Biskut Raya</h2>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24, flexWrap: "wrap", gap: 16 }}>
+        <h2 style={{ fontFamily: "'Playfair Display',serif", color: "#e91e63", fontSize: 32, margin: 0, fontWeight: 700 }}>Koleksi Biskut Raya</h2>
         <input
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Cari produk..."
-          style={{ background: "rgba(255,255,255,.05)", border: "1px solid rgba(139,69,19,.4)", color: "#fde68a", padding: "8px 14px", borderRadius: 8, fontSize: 14, outline: "none", width: 220 }}
+          style={{ background: "rgba(255,255,255,0.9)", border: "2px solid #fce4ec", color: "#2c1810", padding: "10px 16px", borderRadius: 25, fontSize: 15, outline: "none", width: 250, boxShadow: "0 2px 8px rgba(233, 30, 99, 0.1)", transition: "all 0.3s ease" }}
         />
       </div>
 
@@ -102,28 +102,29 @@ export default function ShopPage() {
       </div>
 
       {/* Promo Code */}
-      <div style={{ background: "rgba(255,255,255,.03)", border: "1px solid rgba(139,69,19,.3)", borderRadius: 12, padding: "1rem 1.5rem", marginBottom: 24, display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
-        <span style={{ color: "#cd853f", fontSize: 13 }}>🏷️ Kod Promo Affiliate:</span>
+      <div style={{ background: "rgba(255,255,255,0.9)", border: "2px solid #fce4ec", borderRadius: 16, padding: "1.2rem 1.8rem", marginBottom: 28, display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap", boxShadow: "0 4px 15px rgba(233, 30, 99, 0.1)" }}>
+        <span style={{ color: "#e91e63", fontSize: 15, fontWeight: 600 }}>🏷️ Kod Promo Affiliate:</span>
         <input
           value={promoCode}
           onChange={(e) => setPromoCode(e.target.value)}
           placeholder="Contoh: ADAM10"
-          style={{ background: "rgba(255,255,255,.05)", border: "1px solid rgba(139,69,19,.4)", color: "#fde68a", padding: "6px 12px", borderRadius: 6, fontSize: 13, outline: "none" }}
+          style={{ background: "rgba(255,255,255,0.9)", border: "2px solid #fce4ec", color: "#2c1810", padding: "8px 14px", borderRadius: 20, fontSize: 14, outline: "none", minWidth: 150 }}
         />
-        <button onClick={handlePromo} style={{ background: "#8B4513", border: "none", color: "#fff", padding: "6px 16px", borderRadius: 6, cursor: "pointer", fontSize: 13 }}>Guna</button>
-        {promoResult && <span style={{ color: "#22c55e", fontSize: 13 }}>✅ {promoResult.message}</span>}
-        {promoError && <span style={{ color: "#ef4444", fontSize: 13 }}>❌ {promoError}</span>}
+        <button onClick={handlePromo} style={{ background: "linear-gradient(135deg, #e91e63, #ffb74d)", border: "none", color: "#fff", padding: "8px 18px", borderRadius: 20, cursor: "pointer", fontSize: 14, fontWeight: 600, boxShadow: "0 4px 15px rgba(233, 30, 99, 0.3)" }}>Guna</button>
+        {promoResult && <span style={{ color: "#81c784", fontSize: 14, fontWeight: 600 }}>✅ {promoResult.message}</span>}
+        {promoError && <span style={{ color: "#e91e63", fontSize: 14, fontWeight: 600 }}>❌ {promoError}</span>}
       </div>
 
       {/* Product Grid */}
       {loading ? (
-        <div style={{ textAlign: "center", padding: "4rem", color: "#7a5a3a" }}>
-          <div style={{ fontSize: 48, marginBottom: 12 }}>🌙</div>
-          <div>Memuatkan produk...</div>
+        <div style={{ textAlign: "center", padding: "4rem", background: "rgba(255,255,255,0.9)", borderRadius: "20px", boxShadow: "0 8px 30px rgba(233, 30, 99, 0.1)" }}>
+          <div style={{ fontSize: 60, marginBottom: 16 }}>🧁</div>
+          <div style={{ color: "#5d4037", fontSize: 18, fontWeight: 600 }}>Memuatkan produk...</div>
         </div>
       ) : products.length === 0 ? (
-        <div style={{ textAlign: "center", padding: "4rem", color: "#7a5a3a" }}>
-          Tiada produk ditemui.
+        <div style={{ textAlign: "center", padding: "4rem", background: "rgba(255,255,255,0.9)", borderRadius: "20px", boxShadow: "0 8px 30px rgba(233, 30, 99, 0.1)", color: "#5d4037" }}>
+          <div style={{ fontSize: 48, marginBottom: 16 }}>🍪</div>
+          <div style={{ fontSize: 18, fontWeight: 600 }}>Tiada produk ditemui.</div>
         </div>
       ) : (
         <div style={S.grid}>
@@ -134,7 +135,7 @@ export default function ShopPage() {
             const displayPrice = Number(p.price) * (1 - discountPct / 100);
 
             return (
-              <div key={p.id} style={S.card}>
+              <div key={p.id} style={S.card} onMouseEnter={(e) => e.target.style.transform = "translateY(-4px)"} onMouseLeave={(e) => e.target.style.transform = "translateY(0)"}>
                 <div style={S.cardImg}>
                   {p.image_url
                     ? <img src={p.image_url} alt={p.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
@@ -143,24 +144,24 @@ export default function ShopPage() {
                 <div style={S.cardBody}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
                     <div>
-                      <h3 style={{ fontFamily: "'Playfair Display',serif", color: "#fde68a", fontSize: 15, margin: "0 0 4px" }}>{p.name}</h3>
+                      <h3 style={{ fontFamily: "'Playfair Display',serif", color: "#e91e63", fontSize: 16, margin: "0 0 6px", fontWeight: 600 }}>{p.name}</h3>
                       <span style={S.tag}>{p.category}</span>
                     </div>
                     <div style={{ textAlign: "right" }}>
-                      <div style={{ color: "#F4A460", fontWeight: 700, fontSize: 17 }}>{formatMYR(displayPrice)}</div>
-                      {discountPct > 0 && <div style={{ color: "#7a5a3a", fontSize: 12, textDecoration: "line-through" }}>{formatMYR(p.price)}</div>}
+                      <div style={{ color: "#ffb74d", fontWeight: 700, fontSize: 18 }}>{formatMYR(displayPrice)}</div>
+                      {discountPct > 0 && <div style={{ color: "#8d6e63", fontSize: 13, textDecoration: "line-through" }}>{formatMYR(p.price)}</div>}
                     </div>
                   </div>
-                  <p style={{ color: "#7a5a3a", fontSize: 13, margin: "10px 0", lineHeight: 1.5 }}>{p.description}</p>
+                  <p style={{ color: "#5d4037", fontSize: 14, margin: "12px 0", lineHeight: 1.5 }}>{p.description}</p>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <span style={{ color: p.stock > 10 ? "#22c55e" : p.stock > 0 ? "#f59e0b" : "#ef4444", fontSize: 12 }}>
+                    <span style={{ color: p.stock > 10 ? "#81c784" : p.stock > 0 ? "#ffb74d" : "#e91e63", fontSize: 13, fontWeight: 600 }}>
                       ● Stok: {p.stock} balang
                     </span>
                     {p.stock > 0 && p.stock <= 10 && (
-                      <span style={{ background: "rgba(245,158,11,.15)", color: "#f59e0b", fontSize: 10, padding: "2px 8px", borderRadius: 10 }}>⚡ Hampir habis!</span>
+                      <span style={{ background: "rgba(255, 183, 77, 0.15)", color: "#ffb74d", fontSize: 11, padding: "3px 10px", borderRadius: 12, fontWeight: 600 }}>⚡ Hampir habis!</span>
                     )}
                   </div>
-                  <div style={{ color: "#7a5a3a", fontSize: 11, marginTop: 6 }}>
+                  <div style={{ color: "#8d6e63", fontSize: 12, marginTop: 8, fontWeight: 500 }}>
                     🎁 Beli {p.min_bulk_qty}+ balang: diskaun borong {p.bulk_discount_pct}%
                   </div>
                   <button

@@ -22,8 +22,9 @@ const STATUS_LABELS = {
 };
 
 const inputStyle = {
-  width: "100%", background: "rgba(255,255,255,.05)", border: "1px solid rgba(139,69,19,.4)",
-  color: "#fde68a", padding: "8px 10px", borderRadius: 6, fontSize: 13, outline: "none", boxSizing: "border-box",
+  width: "100%", background: "rgba(255,255,255,0.9)", border: "2px solid #fce4ec",
+  color: "#2c1810", padding: "10px 12px", borderRadius: 10, fontSize: 14, outline: "none", boxSizing: "border-box",
+  transition: "all 0.3s ease"
 };
 
 export default function AdminPage() {
@@ -31,18 +32,18 @@ export default function AdminPage() {
   const navigate = useNavigate();
   const [tab, setTab] = useState("dashboard");
 
-  if (loading) return <div style={{ textAlign: "center", padding: "4rem", color: "#7a5a3a" }}>Memuatkan...</div>;
-  if (!isAdmin) return <div style={{ textAlign: "center", padding: "4rem", color: "#ef4444" }}>⛔ Akses ditolak. Admin sahaja.</div>;
+  if (loading) return <div style={{ textAlign: "center", padding: "4rem", background: "rgba(255,255,255,0.9)", borderRadius: "20px", boxShadow: "0 8px 30px rgba(233, 30, 99, 0.1)", maxWidth: "400px", margin: "2rem auto", color: "#5d4037", fontSize: 18 }}>Memuatkan...</div>;
+  if (!isAdmin) return <div style={{ textAlign: "center", padding: "4rem", background: "rgba(255,255,255,0.9)", borderRadius: "20px", boxShadow: "0 8px 30px rgba(233, 30, 99, 0.1)", maxWidth: "400px", margin: "2rem auto", color: "#e91e63", fontSize: 18, fontWeight: 600 }}>⛔ Akses ditolak. Admin sahaja.</div>;
 
   return (
-    <div style={{ maxWidth: 1200, margin: "0 auto", padding: "2rem 1.5rem" }}>
-      <div style={{ marginBottom: "0.5rem", color: "#7a5a3a", fontSize: 12 }}>Panel Admin</div>
-      <h2 style={{ fontFamily: "'Playfair Display',serif", color: "#fde68a", margin: "0 0 1.5rem" }}>Pengurusan Sistem</h2>
+    <div style={{ maxWidth: 1200, margin: "0 auto", padding: "2rem 1.5rem", background: "linear-gradient(135deg, #fff8f5, #fce4ec)", minHeight: "100vh" }}>
+      <div style={{ marginBottom: "0.5rem", color: "#e91e63", fontSize: 14, fontWeight: 600 }}>Panel Admin</div>
+      <h2 style={{ fontFamily: "'Playfair Display',serif", color: "#e91e63", margin: "0 0 1.5rem", fontSize: 28, fontWeight: 700 }}>Pengurusan Sistem</h2>
 
       {/* Tab nav */}
-      <div style={{ display: "flex", gap: 8, marginBottom: "2rem", flexWrap: "wrap" }}>
+      <div style={{ display: "flex", gap: 12, marginBottom: "2rem", flexWrap: "wrap" }}>
         {[["dashboard","📊 Dashboard"], ["products","🧁 Produk"], ["orders","📦 Pesanan"], ["affiliates","🤝 Affiliate"], ["settings","⚙️ Tetapan"]].map(([k, l]) => (
-          <button key={k} onClick={() => setTab(k)} style={{ background: tab === k ? "linear-gradient(135deg,#8B4513,#cd853f)" : "rgba(255,255,255,.04)", border: "1px solid rgba(139,69,19,.4)", color: tab === k ? "#fff" : "#cd853f", padding: "8px 18px", borderRadius: 8, cursor: "pointer", fontSize: 14 }}>{l}</button>
+          <button key={k} onClick={() => setTab(k)} style={{ background: tab === k ? "linear-gradient(135deg, #e91e63, #ffb74d)" : "rgba(255,255,255,0.9)", border: "2px solid #fce4ec", color: tab === k ? "#fff" : "#e91e63", padding: "10px 20px", borderRadius: 25, cursor: "pointer", fontSize: 15, fontWeight: 600, boxShadow: tab === k ? "0 4px 15px rgba(233, 30, 99, 0.3)" : "0 2px 8px rgba(233, 30, 99, 0.1)", transition: "all 0.3s ease" }}>{l}</button>
         ))}
       </div>
 
@@ -78,18 +79,18 @@ function DashboardTab() {
   if (!stats) return <div style={{ color: "#7a5a3a" }}>Memuatkan...</div>;
 
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(200px,1fr))", gap: 16 }}>
+    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))", gap: 20 }}>
       {[
-        ["💰", "Jumlah Hasil", formatMYR(stats.revenue), "#22c55e"],
-        ["📦", "Jumlah Pesanan", stats.totalOrders, "#3b82f6"],
-        ["⚠️", "Belum Bayar", stats.pendingOrders, "#f59e0b"],
-        ["🤝", "Komisyen Tertunggak", formatMYR(stats.commissionDue), "#f97316"],
-        ["👥", "Affiliate Aktif", stats.affiliateCount, "#8b5cf6"],
+        ["💰", "Jumlah Hasil", formatMYR(stats.revenue), "#81c784"],
+        ["📦", "Jumlah Pesanan", stats.totalOrders, "#1976d2"],
+        ["⚠️", "Belum Bayar", stats.pendingOrders, "#ffb74d"],
+        ["🤝", "Komisyen Tertunggak", formatMYR(stats.commissionDue), "#ff9800"],
+        ["👥", "Affiliate Aktif", stats.affiliateCount, "#9c27b0"],
       ].map(([ic, lab, val, col]) => (
-        <div key={lab} style={{ background: "rgba(255,255,255,.03)", border: "1px solid rgba(139,69,19,.3)", borderRadius: 12, padding: "1.5rem" }}>
-          <div style={{ fontSize: 28, marginBottom: 8 }}>{ic}</div>
-          <div style={{ color: "#7a5a3a", fontSize: 12 }}>{lab}</div>
-          <div style={{ color: col, fontSize: 24, fontWeight: 700, fontFamily: "'Playfair Display',serif" }}>{val}</div>
+        <div key={lab} style={{ background: "rgba(255,255,255,0.95)", border: "2px solid #fce4ec", borderRadius: 16, padding: "1.8rem", boxShadow: "0 4px 15px rgba(233, 30, 99, 0.1)", transition: "all 0.3s ease", cursor: "pointer" }} onMouseEnter={(e) => e.target.style.transform = "translateY(-2px)"} onMouseLeave={(e) => e.target.style.transform = "translateY(0)"}>
+          <div style={{ fontSize: 32, marginBottom: 10 }}>{ic}</div>
+          <div style={{ color: "#5d4037", fontSize: 13, fontWeight: 500 }}>{lab}</div>
+          <div style={{ color: col, fontSize: 26, fontWeight: 700, fontFamily: "'Playfair Display',serif" }}>{val}</div>
         </div>
       ))}
     </div>
@@ -148,24 +149,24 @@ function ImageUploader({ currentUrl, onUploaded }) {
         onDrop={(e) => { e.preventDefault(); handle(e.dataTransfer.files[0]); }}
         onDragOver={(e) => e.preventDefault()}
         style={{ position: "relative", height: 130, borderRadius: 10, overflow: "hidden", cursor: progress !== null ? "wait" : "pointer",
-          border: "2px dashed rgba(139,69,19,.5)", background: "rgba(255,255,255,.03)",
+          border: "2px dashed rgba(233, 30, 99, 0.3)", background: "rgba(255,255,255,0.8)",
           display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}
       >
         {preview
           ? <img src={preview} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
           : <>
               <div style={{ fontSize: 30 }}>📷</div>
-              <div style={{ color: "#cd853f", fontSize: 12, marginTop: 4 }}>Klik atau seret gambar</div>
-              <div style={{ color: "#7a5a3a", fontSize: 10 }}>JPG · PNG · WebP · maks 5 MB</div>
+              <div style={{ color: "#e91e63", fontSize: 12, marginTop: 4, fontWeight: 500 }}>Klik atau seret gambar</div>
+              <div style={{ color: "#5d4037", fontSize: 10 }}>JPG · PNG · WebP · maks 5 MB</div>
             </>
         }
         {progress !== null && (
-          <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,.72)",
-            display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 8 }}>
-            <div style={{ color: "#fde68a", fontSize: 13, fontWeight: 700 }}>Menghantar... {progress}%</div>
-            <div style={{ width: "72%", height: 6, background: "rgba(255,255,255,.1)", borderRadius: 3 }}>
+          <div style={{ position: "absolute", inset: 0, background: "rgba(255,255,255,0.95)",
+            display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 8, borderRadius: 10 }}>
+            <div style={{ color: "#e91e63", fontSize: 13, fontWeight: 700 }}>Menghantar... {progress}%</div>
+            <div style={{ width: "72%", height: 6, background: "rgba(233, 30, 99, 0.1)", borderRadius: 3 }}>
               <div style={{ width: `${progress}%`, height: "100%", borderRadius: 3,
-                background: "linear-gradient(90deg,#8B4513,#cd853f)", transition: "width .25s" }} />
+                background: "linear-gradient(90deg,#e91e63,#ffb74d)", transition: "width .25s" }} />
             </div>
           </div>
         )}
@@ -176,12 +177,12 @@ function ImageUploader({ currentUrl, onUploaded }) {
         <div style={{ display: "flex", gap: 6, marginTop: 6 }}>
           <button type="button" onClick={() => fileRef.current.click()}
             style={{ flex: 1, background: "rgba(59,130,246,.15)", border: "1px solid rgba(59,130,246,.4)",
-              color: "#93c5fd", padding: "5px 8px", borderRadius: 6, cursor: "pointer", fontSize: 11 }}>
+              color: "#1976d2", padding: "5px 8px", borderRadius: 6, cursor: "pointer", fontSize: 11, fontWeight: 500 }}>
             🔄 Tukar
           </button>
           <button type="button" onClick={() => { setPreview(null); onUploaded("", ""); }}
             style={{ background: "rgba(239,68,68,.15)", border: "1px solid rgba(239,68,68,.4)",
-              color: "#fca5a5", padding: "5px 8px", borderRadius: 6, cursor: "pointer", fontSize: 11 }}>
+              color: "#dc2626", padding: "5px 8px", borderRadius: 6, cursor: "pointer", fontSize: 11, fontWeight: 500 }}>
             🗑️ Buang
           </button>
         </div>
@@ -243,9 +244,9 @@ function ProductsTab() {
     <div>
       {/* header */}
       <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "1rem" }}>
-        <h3 style={{ fontFamily: "'Playfair Display',serif", color: "#fde68a", margin: 0 }}>Urus Produk</h3>
+        <h3 style={{ fontFamily: "'Playfair Display',serif", color: "#e91e63", margin: 0, fontSize: 24, fontWeight: 600 }}>Urus Produk</h3>
         <button onClick={() => setShowAdd(!showAdd)}
-          style={{ background: "#8B4513", border: "none", color: "#fff", padding: "8px 18px", borderRadius: 8, cursor: "pointer" }}>
+          style={{ background: "linear-gradient(135deg, #e91e63, #ffb74d)", border: "none", color: "#fff", padding: "10px 20px", borderRadius: 25, cursor: "pointer", fontSize: 15, fontWeight: 600, boxShadow: "0 4px 15px rgba(233, 30, 99, 0.3)" }}>
           + Tambah Produk
         </button>
       </div>
@@ -253,12 +254,12 @@ function ProductsTab() {
 
       {/* ── ADD FORM ── */}
       {showAdd && (
-        <div style={{ background: "rgba(255,255,255,.03)", border: "1px solid rgba(139,69,19,.4)", borderRadius: 12, padding: "1.5rem", marginBottom: 16 }}>
-          <h4 style={{ color: "#fde68a", fontFamily: "'Playfair Display',serif", margin: "0 0 1.2rem" }}>Produk Baru</h4>
+        <div style={{ background: "rgba(255,255,255,0.95)", border: "2px solid #fce4ec", borderRadius: 16, padding: "1.8rem", marginBottom: 20, boxShadow: "0 4px 15px rgba(233, 30, 99, 0.1)" }}>
+          <h4 style={{ color: "#e91e63", fontFamily: "'Playfair Display',serif", margin: "0 0 1.2rem", fontSize: 20, fontWeight: 600 }}>Produk Baru</h4>
           <div style={{ display: "grid", gridTemplateColumns: "180px 1fr", gap: 16, marginBottom: 12 }}>
             {/* image */}
             <div>
-              <div style={{ color: "#cd853f", fontSize: 11, marginBottom: 6 }}>Gambar Produk</div>
+              <div style={{ color: "#e91e63", fontSize: 12, marginBottom: 6, fontWeight: 600 }}>Gambar Produk</div>
               <ImageUploader currentUrl={newP.image_url}
                 onUploaded={(url, path) => setNewP(p => ({ ...p, image_url: url, image_storagePath: path }))} />
             </div>
@@ -267,21 +268,21 @@ function ProductsTab() {
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
                 {fields.map(([k, l]) => (
                   <div key={k}>
-                    <label style={{ color: "#cd853f", fontSize: 11, display: "block", marginBottom: 3 }}>{l}</label>
+                    <label style={{ color: "#e91e63", fontSize: 12, display: "block", marginBottom: 4, fontWeight: 500 }}>{l}</label>
                     <input value={newP[k]} onChange={(e) => setNewP(p => ({...p, [k]: e.target.value}))} style={inputStyle} />
                   </div>
                 ))}
               </div>
-              <div style={{ marginTop: 10 }}>
-                <label style={{ color: "#cd853f", fontSize: 11, display: "block", marginBottom: 3 }}>Penerangan</label>
+              <div style={{ marginTop: 12 }}>
+                <label style={{ color: "#e91e63", fontSize: 12, display: "block", marginBottom: 4, fontWeight: 500 }}>Penerangan</label>
                 <textarea value={newP.description} onChange={(e) => setNewP(p => ({...p, description: e.target.value}))}
-                  rows={2} style={{ ...inputStyle, resize: "vertical" }} />
+                  rows={3} style={{ ...inputStyle, resize: "vertical" }} />
               </div>
             </div>
           </div>
-          <div style={{ display: "flex", gap: 8 }}>
-            <button onClick={handleAdd} style={{ background: "#22c55e", border: "none", color: "#fff", padding: "8px 22px", borderRadius: 6, cursor: "pointer", fontWeight: 600 }}>✓ Simpan Produk</button>
-            <button onClick={() => setShowAdd(false)} style={{ background: "transparent", border: "1px solid #8B4513", color: "#cd853f", padding: "8px 16px", borderRadius: 6, cursor: "pointer" }}>Batal</button>
+          <div style={{ display: "flex", gap: 10 }}>
+            <button onClick={handleAdd} style={{ background: "linear-gradient(135deg, #4caf50, #66bb6a)", border: "none", color: "#fff", padding: "10px 24px", borderRadius: 25, cursor: "pointer", fontSize: 15, fontWeight: 600, boxShadow: "0 4px 15px rgba(76, 175, 80, 0.3)" }}>✓ Simpan Produk</button>
+            <button onClick={() => setShowAdd(false)} style={{ background: "rgba(255,255,255,0.9)", border: "2px solid #fce4ec", color: "#e91e63", padding: "10px 20px", borderRadius: 25, cursor: "pointer", fontSize: 15, fontWeight: 600 }}>Batal</button>
           </div>
         </div>
       )}
@@ -292,44 +293,44 @@ function ProductsTab() {
           {products.map((p) => editId === p.id ? (
 
             // ── EDIT ROW ──
-            <div key={p.id} style={{ background: "rgba(255,255,255,.03)", border: "1px solid #cd853f", borderRadius: 10, padding: "1.2rem 1.4rem" }}>
+            <div key={p.id} style={{ background: "rgba(255,255,255,0.95)", border: "2px solid #e91e63", borderRadius: 16, padding: "1.5rem 1.8rem", boxShadow: "0 4px 15px rgba(233, 30, 99, 0.2)" }}>
               <div style={{ display: "grid", gridTemplateColumns: "180px 1fr", gap: 16, marginBottom: 12 }}>
                 <div>
-                  <div style={{ color: "#7a5a3a", fontSize: 11, marginBottom: 6 }}>Gambar Produk</div>
+                  <div style={{ color: "#e91e63", fontSize: 12, marginBottom: 6, fontWeight: 600 }}>Gambar Produk</div>
                   <ImageUploader currentUrl={editData.image_url || ""}
                     onUploaded={(url, path) => setEditData(d => ({ ...d, image_url: url, image_storagePath: path }))} />
                 </div>
                 <div>
-                  <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 8, marginBottom: 8 }}>
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 10, marginBottom: 12 }}>
                     {fields.map(([k, l]) => (
                       <div key={k}>
-                        <div style={{ color: "#7a5a3a", fontSize: 11 }}>{l}</div>
+                        <div style={{ color: "#e91e63", fontSize: 12, fontWeight: 500 }}>{l}</div>
                         <input value={editData[k] || ""} onChange={(e) => setEditData(d => ({...d, [k]: e.target.value}))} style={inputStyle} />
                       </div>
                     ))}
                   </div>
                   <div>
-                    <div style={{ color: "#7a5a3a", fontSize: 11 }}>Penerangan</div>
+                    <div style={{ color: "#e91e63", fontSize: 12, fontWeight: 500 }}>Penerangan</div>
                     <textarea value={editData.description || ""} onChange={(e) => setEditData(d => ({...d, description: e.target.value}))}
-                      rows={2} style={{ ...inputStyle, resize: "vertical" }} />
+                      rows={3} style={{ ...inputStyle, resize: "vertical" }} />
                   </div>
                 </div>
               </div>
-              <div style={{ display: "flex", gap: 8 }}>
-                <button onClick={() => handleSave(p.id)} style={{ background: "#22c55e", border: "none", color: "#fff", padding: "7px 18px", borderRadius: 6, cursor: "pointer", fontWeight: 600 }}>✓ Simpan</button>
-                <button onClick={() => setEditId(null)} style={{ background: "transparent", border: "1px solid #8B4513", color: "#cd853f", padding: "7px 14px", borderRadius: 6, cursor: "pointer" }}>✕ Batal</button>
+              <div style={{ display: "flex", gap: 10 }}>
+                <button onClick={() => handleSave(p.id)} style={{ background: "linear-gradient(135deg, #4caf50, #66bb6a)", border: "none", color: "#fff", padding: "10px 24px", borderRadius: 25, cursor: "pointer", fontSize: 15, fontWeight: 600, boxShadow: "0 4px 15px rgba(76, 175, 80, 0.3)" }}>✓ Simpan</button>
+                <button onClick={() => setEditId(null)} style={{ background: "rgba(255,255,255,0.9)", border: "2px solid #fce4ec", color: "#e91e63", padding: "10px 20px", borderRadius: 25, cursor: "pointer", fontSize: 15, fontWeight: 600 }}>✕ Batal</button>
               </div>
             </div>
 
           ) : (
 
             // ── VIEW ROW ──
-            <div key={p.id} style={{ background: "rgba(255,255,255,.03)", border: `1px solid ${p.is_active ? "rgba(139,69,19,.3)" : "rgba(100,100,100,.2)"}`,
-              borderRadius: 10, padding: "1rem 1.2rem", display: "flex", alignItems: "center", gap: 14, opacity: p.is_active ? 1 : 0.5 }}>
+            <div key={p.id} style={{ background: "rgba(255,255,255,0.95)", border: `2px solid ${p.is_active ? "#fce4ec" : "#ef4444"}`,
+              borderRadius: 16, padding: "1.2rem 1.5rem", display: "flex", alignItems: "center", gap: 16, opacity: p.is_active ? 1 : 0.7, boxShadow: "0 2px 8px rgba(233, 30, 99, 0.1)", transition: "all 0.3s ease" }}>
 
               {/* thumbnail — real photo or fallback emoji */}
-              <div style={{ width: 60, height: 60, borderRadius: 8, overflow: "hidden", flexShrink: 0,
-                background: "rgba(139,69,19,.15)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <div style={{ width: 60, height: 60, borderRadius: 12, overflow: "hidden", flexShrink: 0,
+                background: "linear-gradient(135deg, #fce4ec, #ffebee)", display: "flex", alignItems: "center", justifyContent: "center", border: "2px solid #fce4ec" }}>
                 {p.image_url
                   ? <img src={p.image_url} alt={p.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                   : <span style={{ fontSize: 30 }}>{p.image_emoji || "🍪"}</span>
@@ -337,19 +338,19 @@ function ProductsTab() {
               </div>
 
               <div style={{ flex: 1 }}>
-                <div style={{ color: "#fde68a", fontFamily: "'Playfair Display',serif", fontWeight: 600 }}>{p.name}</div>
-                <div style={{ color: "#7a5a3a", fontSize: 12 }}>{p.category} · {formatMYR(p.price)}</div>
+                <div style={{ color: "#3e2723", fontFamily: "'Playfair Display',serif", fontWeight: 600, fontSize: 16 }}>{p.name}</div>
+                <div style={{ color: "#5d4037", fontSize: 13 }}>{p.category} · {formatMYR(p.price)}</div>
               </div>
               <div style={{ textAlign: "center", minWidth: 70 }}>
-                <div style={{ color: p.stock < 10 ? "#ef4444" : "#22c55e", fontWeight: 700, fontSize: 18 }}>{p.stock}</div>
-                <div style={{ color: "#7a5a3a", fontSize: 11 }}>balang</div>
+                <div style={{ color: p.stock < 10 ? "#ef4444" : "#4caf50", fontWeight: 700, fontSize: 18 }}>{p.stock}</div>
+                <div style={{ color: "#5d4037", fontSize: 11 }}>balang</div>
               </div>
-              {!p.is_active && <span style={{ color: "#7a5a3a", fontSize: 11, background: "rgba(100,100,100,.2)", padding: "2px 8px", borderRadius: 10 }}>TIDAK AKTIF</span>}
+              {!p.is_active && <span style={{ color: "#ef4444", fontSize: 12, background: "rgba(239, 68, 68, 0.1)", padding: "4px 10px", borderRadius: 12, fontWeight: 500 }}>TIDAK AKTIF</span>}
               <div style={{ display: "flex", gap: 8 }}>
                 <button onClick={() => { setEditId(p.id); setEditData({ ...p }); }}
-                  style={{ background: "rgba(59,130,246,.2)", border: "1px solid rgba(59,130,246,.4)", color: "#93c5fd", padding: "6px 14px", borderRadius: 6, cursor: "pointer", fontSize: 12 }}>✏️ Edit</button>
+                  style={{ background: "rgba(59,130,246,.15)", border: "1px solid rgba(59,130,246,.4)", color: "#1976d2", padding: "8px 16px", borderRadius: 20, cursor: "pointer", fontSize: 13, fontWeight: 500 }}>✏️ Edit</button>
                 <button onClick={() => handleDelete(p.id)}
-                  style={{ background: "rgba(239,68,68,.15)", border: "1px solid rgba(239,68,68,.4)", color: "#fca5a5", padding: "6px 14px", borderRadius: 6, cursor: "pointer", fontSize: 12 }}>🗑️ Padam</button>
+                  style={{ background: "rgba(239,68,68,.15)", border: "1px solid rgba(239,68,68,.4)", color: "#dc2626", padding: "8px 16px", borderRadius: 20, cursor: "pointer", fontSize: 13, fontWeight: 500 }}>🗑️ Padam</button>
               </div>
             </div>
           ))}
@@ -383,9 +384,9 @@ function OrdersTab() {
   return (
     <div>
       <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "1rem", flexWrap: "wrap", gap: 10 }}>
-        <h3 style={{ fontFamily: "'Playfair Display',serif", color: "#fde68a", margin: 0 }}>Semua Pesanan</h3>
+        <h3 style={{ fontFamily: "'Playfair Display',serif", color: "#e91e63", margin: 0, fontSize: 24, fontWeight: 600 }}>Semua Pesanan</h3>
         <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}
-          style={{ background: "rgba(0,0,0,.3)", border: "1px solid rgba(139,69,19,.4)", color: "#cd853f", padding: "6px 12px", borderRadius: 6, fontSize: 13 }}>
+          style={{ background: "rgba(255,255,255,0.9)", border: "2px solid #fce4ec", color: "#2c1810", padding: "8px 16px", borderRadius: 20, fontSize: 14, outline: "none", fontWeight: 500 }}>
           <option value="">Semua Status</option>
           {Object.entries(STATUS_LABELS).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
         </select>
@@ -394,21 +395,21 @@ function OrdersTab() {
       {loading ? <div style={{ color: "#7a5a3a" }}>Memuatkan...</div> : (
         <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
           {orders.map((o) => (
-            <div key={o.id} style={{ background: "rgba(255,255,255,.03)", border: "1px solid rgba(139,69,19,.3)", borderRadius: 10, padding: "1rem 1.2rem", display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
+            <div key={o.id} style={{ background: "rgba(255,255,255,0.95)", border: "2px solid #fce4ec", borderRadius: 16, padding: "1.2rem 1.5rem", display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap", boxShadow: "0 2px 8px rgba(233, 30, 99, 0.1)", transition: "all 0.3s ease" }}>
               <div style={{ minWidth: 120 }}>
-                <div style={{ color: "#fde68a", fontFamily: "monospace", fontWeight: 700, fontSize: 13 }}>{o.order_number}</div>
-                <div style={{ color: "#7a5a3a", fontSize: 11 }}>{new Date(o.created_at).toLocaleDateString("ms-MY")}</div>
+                <div style={{ color: "#2c1810", fontFamily: "monospace", fontWeight: 700, fontSize: 14 }}>{o.order_number}</div>
+                <div style={{ color: "#5d4037", fontSize: 12 }}>{new Date(o.created_at).toLocaleDateString("ms-MY")}</div>
               </div>
               <div style={{ flex: 1 }}>
-                <div style={{ color: "#a0785a", fontSize: 14 }}>{o.customer_name || o.ship_name}</div>
-                <div style={{ color: "#7a5a3a", fontSize: 12 }}>{o.customer_email} · {o.item_count} item</div>
+                <div style={{ color: "#2c1810", fontSize: 15, fontWeight: 600 }}>{o.customer_name || o.ship_name}</div>
+                <div style={{ color: "#5d4037", fontSize: 13 }}>{o.customer_email} · {o.item_count} item</div>
               </div>
-              <div style={{ color: "#F4A460", fontWeight: 700 }}>{formatMYR(o.total)}</div>
-              <span style={{ background: `${STATUS_COLORS[o.status]}22`, color: STATUS_COLORS[o.status], padding: "3px 10px", borderRadius: 20, fontSize: 12, border: `1px solid ${STATUS_COLORS[o.status]}55`, whiteSpace: "nowrap" }}>
+              <div style={{ color: "#e91e63", fontWeight: 700, fontSize: 16 }}>{formatMYR(o.total)}</div>
+              <span style={{ background: `${STATUS_COLORS[o.status]}22`, color: STATUS_COLORS[o.status], padding: "6px 14px", borderRadius: 20, fontSize: 13, border: `2px solid ${STATUS_COLORS[o.status]}55`, whiteSpace: "nowrap", fontWeight: 600 }}>
                 {STATUS_LABELS[o.status] || o.status}
               </span>
               <select value={o.status} onChange={(e) => updateStatus(o.id, e.target.value)}
-                style={{ background: "rgba(0,0,0,.3)", border: "1px solid rgba(139,69,19,.4)", color: "#cd853f", padding: "5px 8px", borderRadius: 6, fontSize: 12 }}>
+                style={{ background: "rgba(255,255,255,0.9)", border: "2px solid #fce4ec", color: "#2c1810", padding: "8px 12px", borderRadius: 20, fontSize: 13, outline: "none", fontWeight: 500 }}>
                 {Object.entries(STATUS_LABELS).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
               </select>
             </div>
@@ -449,61 +450,61 @@ function AffiliatesTab() {
 
   return (
     <div>
-      <h3 style={{ fontFamily: "'Playfair Display',serif", color: "#fde68a", margin: "0 0 1rem" }}>Urus Affiliate</h3>
+      <h3 style={{ fontFamily: "'Playfair Display',serif", color: "#e91e63", margin: "0 0 1rem", fontSize: 24, fontWeight: 600 }}>Urus Affiliate</h3>
       {msg && <div style={{ background: "rgba(34,197,94,.1)", border: "1px solid rgba(34,197,94,.3)", borderRadius: 6, padding: "8px 12px", color: "#86efac", fontSize: 13, marginBottom: 12 }}>{msg}</div>}
       {loading ? <div style={{ color: "#7a5a3a" }}>Memuatkan...</div> : (
         <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
           {affiliates.map((a) => (
-            <div key={a.id} style={{ background: "rgba(255,255,255,.03)", border: "1px solid rgba(139,69,19,.3)", borderRadius: 12, padding: "1.2rem 1.5rem" }}>
+            <div key={a.id} style={{ background: "rgba(255,255,255,0.95)", border: "2px solid #fce4ec", borderRadius: 16, padding: "1.5rem 1.8rem", boxShadow: "0 4px 15px rgba(233, 30, 99, 0.1)", transition: "all 0.3s ease" }}>
               <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
                 <div>
-                  <div style={{ color: "#fde68a", fontFamily: "'Playfair Display',serif", fontWeight: 600 }}>{a.full_name}</div>
-                  <div style={{ color: "#7a5a3a", fontSize: 12 }}>
-                    {a.email} · Kod: <span style={{ color: "#F4A460" }}>{a.affiliate_code}</span> · Promo: <span style={{ color: "#F4A460" }}>{a.promo_code}</span>
+                  <div style={{ color: "#2c1810", fontFamily: "'Playfair Display',serif", fontWeight: 600, fontSize: 16 }}>{a.full_name}</div>
+                  <div style={{ color: "#5d4037", fontSize: 13 }}>
+                    {a.email} · Kod: <span style={{ color: "#e91e63", fontWeight: 600 }}>{a.affiliate_code}</span> · Promo: <span style={{ color: "#ffb74d", fontWeight: 600 }}>{a.promo_code}</span>
                   </div>
-                  <span style={{ background: a.status === "active" ? "rgba(34,197,94,.15)" : "rgba(245,158,11,.15)", color: a.status === "active" ? "#86efac" : "#fcd34d", fontSize: 10, padding: "2px 8px", borderRadius: 10, marginTop: 4, display: "inline-block" }}>
+                  <span style={{ background: a.status === "active" ? "linear-gradient(135deg, #4caf50, #66bb6a)" : "linear-gradient(135deg, #ffb74d, #ffcc02)", color: "#fff", fontSize: 12, padding: "4px 12px", borderRadius: 16, marginTop: 6, display: "inline-block", fontWeight: 600 }}>
                     {a.status === "active" ? "Aktif" : a.status === "pending" ? "Menunggu" : a.status}
                   </span>
                 </div>
                 <div style={{ display: "flex", gap: 20, flexWrap: "wrap", alignItems: "center" }}>
                   {[["Klik", a.total_clicks], ["Pesanan", a.total_orders], ["Earned", formatMYR(a.total_earned)], ["Tertunggak", formatMYR(a.pending_payout || 0)]].map(([l, v]) => (
                     <div key={l} style={{ textAlign: "center" }}>
-                      <div style={{ color: "#cd853f", fontWeight: 700 }}>{v}</div>
-                      <div style={{ color: "#7a5a3a", fontSize: 11 }}>{l}</div>
+                      <div style={{ color: "#e91e63", fontWeight: 700, fontSize: 16 }}>{v}</div>
+                      <div style={{ color: "#5d4037", fontSize: 12 }}>{l}</div>
                     </div>
                   ))}
                 </div>
                 <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
                   {a.status === "pending" && (
-                    <button onClick={() => approve(a.id)} style={{ background: "rgba(34,197,94,.2)", border: "1px solid rgba(34,197,94,.4)", color: "#86efac", padding: "6px 14px", borderRadius: 6, cursor: "pointer", fontSize: 12 }}>✅ Luluskan</button>
+                    <button onClick={() => approve(a.id)} style={{ background: "linear-gradient(135deg, #4caf50, #66bb6a)", border: "none", color: "#fff", padding: "8px 16px", borderRadius: 20, cursor: "pointer", fontSize: 13, fontWeight: 600, boxShadow: "0 4px 15px rgba(76, 175, 80, 0.3)" }}>✅ Luluskan</button>
                   )}
-                  <button onClick={() => { setEditComm(a.id); setCommData({ commission_type: a.commission_type, commission_value: a.commission_value, promo_discount_pct: a.promo_discount_pct }); }} style={{ background: "rgba(59,130,246,.2)", border: "1px solid rgba(59,130,246,.4)", color: "#93c5fd", padding: "6px 14px", borderRadius: 6, cursor: "pointer", fontSize: 12 }}>✏️ Kadar</button>
+                  <button onClick={() => { setEditComm(a.id); setCommData({ commission_type: a.commission_type, commission_value: a.commission_value, promo_discount_pct: a.promo_discount_pct }); }} style={{ background: "rgba(59,130,246,.15)", border: "2px solid rgba(59,130,246,.4)", color: "#1976d2", padding: "8px 16px", borderRadius: 20, cursor: "pointer", fontSize: 13, fontWeight: 600 }}>✏️ Kadar</button>
                   {Number(a.pending_payout) > 0 && (
-                    <button onClick={() => payout(a.id)} style={{ background: "linear-gradient(135deg,#22c55e,#16a34a)", border: "none", color: "#fff", padding: "6px 14px", borderRadius: 6, cursor: "pointer", fontSize: 12 }}>💸 Bayar {formatMYR(a.pending_payout)}</button>
+                    <button onClick={() => payout(a.id)} style={{ background: "linear-gradient(135deg, #e91e63, #ffb74d)", border: "none", color: "#fff", padding: "8px 16px", borderRadius: 20, cursor: "pointer", fontSize: 13, fontWeight: 600, boxShadow: "0 4px 15px rgba(233, 30, 99, 0.3)" }}>💸 Bayar {formatMYR(a.pending_payout)}</button>
                   )}
                 </div>
               </div>
 
               {editComm === a.id && (
-                <div style={{ marginTop: 12, padding: "10px", background: "rgba(0,0,0,.2)", borderRadius: 8, display: "flex", gap: 12, flexWrap: "wrap" }}>
+                <div style={{ marginTop: 16, padding: "16px", background: "linear-gradient(135deg, #fce4ec, #ffebee)", borderRadius: 12, display: "flex", gap: 16, flexWrap: "wrap", border: "2px solid #e91e63" }}>
                   <div>
-                    <div style={{ color: "#7a5a3a", fontSize: 11 }}>Jenis Komisyen</div>
-                    <select value={commData.commission_type} onChange={e => setCommData(d => ({...d, commission_type: e.target.value}))} style={{ ...inputStyle, width: 120 }}>
+                    <div style={{ color: "#e91e63", fontSize: 12, fontWeight: 600 }}>Jenis Komisyen</div>
+                    <select value={commData.commission_type} onChange={e => setCommData(d => ({...d, commission_type: e.target.value}))} style={{ ...inputStyle, width: 140 }}>
                       <option value="percent">Peratus (%)</option>
                       <option value="fixed">Tetap (RM)</option>
                     </select>
                   </div>
                   <div>
-                    <div style={{ color: "#7a5a3a", fontSize: 11 }}>Nilai</div>
-                    <input type="number" value={commData.commission_value} onChange={e => setCommData(d => ({...d, commission_value: e.target.value}))} style={{ ...inputStyle, width: 80 }} />
+                    <div style={{ color: "#e91e63", fontSize: 12, fontWeight: 600 }}>Nilai</div>
+                    <input type="number" value={commData.commission_value} onChange={e => setCommData(d => ({...d, commission_value: e.target.value}))} style={{ ...inputStyle, width: 100 }} />
                   </div>
                   <div>
-                    <div style={{ color: "#7a5a3a", fontSize: 11 }}>Diskaun Promo (%)</div>
-                    <input type="number" value={commData.promo_discount_pct} onChange={e => setCommData(d => ({...d, promo_discount_pct: e.target.value}))} style={{ ...inputStyle, width: 80 }} />
+                    <div style={{ color: "#e91e63", fontSize: 12, fontWeight: 600 }}>Diskaun Promo (%)</div>
+                    <input type="number" value={commData.promo_discount_pct} onChange={e => setCommData(d => ({...d, promo_discount_pct: e.target.value}))} style={{ ...inputStyle, width: 100 }} />
                   </div>
                   <div style={{ display: "flex", gap: 8, alignItems: "flex-end" }}>
-                    <button onClick={() => saveComm(a.id)} style={{ background: "#22c55e", border: "none", color: "#fff", padding: "7px 16px", borderRadius: 6, cursor: "pointer", fontSize: 12 }}>Simpan</button>
-                    <button onClick={() => setEditComm(null)} style={{ background: "transparent", border: "1px solid #8B4513", color: "#cd853f", padding: "7px 12px", borderRadius: 6, cursor: "pointer", fontSize: 12 }}>Batal</button>
+                    <button onClick={() => saveComm(a.id)} style={{ background: "linear-gradient(135deg, #4caf50, #66bb6a)", border: "none", color: "#fff", padding: "10px 20px", borderRadius: 20, cursor: "pointer", fontSize: 13, fontWeight: 600, boxShadow: "0 4px 15px rgba(76, 175, 80, 0.3)" }}>Simpan</button>
+                    <button onClick={() => setEditComm(null)} style={{ background: "rgba(255,255,255,0.9)", border: "2px solid #fce4ec", color: "#e91e63", padding: "10px 16px", borderRadius: 20, cursor: "pointer", fontSize: 13, fontWeight: 600 }}>Batal</button>
                   </div>
                 </div>
               )}
@@ -541,22 +542,22 @@ function SettingsTab() {
     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
       {msg && <div style={{ gridColumn: "1/-1", background: "rgba(34,197,94,.1)", border: "1px solid rgba(34,197,94,.3)", borderRadius: 6, padding: "8px 12px", color: "#86efac", fontSize: 13 }}>{msg}</div>}
 
-      <div style={{ background: "rgba(255,255,255,.03)", border: "1px solid rgba(139,69,19,.3)", borderRadius: 12, padding: "1.5rem" }}>
-        <h4 style={{ fontFamily: "'Playfair Display',serif", color: "#fde68a", margin: "0 0 1rem" }}>🚚 Kadar Penghantaran</h4>
+      <div style={{ background: "rgba(255,255,255,0.95)", border: "2px solid #fce4ec", borderRadius: 16, padding: "1.8rem", boxShadow: "0 4px 15px rgba(233, 30, 99, 0.1)" }}>
+        <h4 style={{ fontFamily: "'Playfair Display',serif", color: "#e91e63", margin: "0 0 1rem", fontSize: 18, fontWeight: 600 }}>🚚 Kadar Penghantaran</h4>
         {[["standard_rate","Standard (RM)"], ["express_rate","Express (RM)"], ["free_shipping_threshold","Percuma jika ≥ (RM)"]].map(([k, l]) => (
-          <div key={k} style={{ marginBottom: 10 }}>
-            <label style={{ color: "#cd853f", fontSize: 12, display: "block", marginBottom: 3 }}>{l}</label>
+          <div key={k} style={{ marginBottom: 12 }}>
+            <label style={{ color: "#e91e63", fontSize: 13, display: "block", marginBottom: 4, fontWeight: 500 }}>{l}</label>
             <input type="number" value={shipping[k] || ""} onChange={e => setShipping(s => ({...s, [k]: e.target.value}))} style={inputStyle} />
           </div>
         ))}
-        <button onClick={saveShipping} style={{ background: "#8B4513", border: "none", color: "#fff", padding: "8px 20px", borderRadius: 6, cursor: "pointer", fontFamily: "'Playfair Display',serif" }}>Simpan</button>
+        <button onClick={saveShipping} style={{ background: "linear-gradient(135deg, #e91e63, #ffb74d)", border: "none", color: "#fff", padding: "10px 24px", borderRadius: 25, cursor: "pointer", fontFamily: "'Playfair Display',serif", fontSize: 15, fontWeight: 600, boxShadow: "0 4px 15px rgba(233, 30, 99, 0.3)" }}>Simpan</button>
       </div>
 
-      <div style={{ background: "rgba(255,255,255,.03)", border: "1px solid rgba(139,69,19,.3)", borderRadius: 12, padding: "1.5rem" }}>
-        <h4 style={{ fontFamily: "'Playfair Display',serif", color: "#fde68a", margin: "0 0 1rem" }}>⏳ Tarikh Akhir Pesanan</h4>
-        <label style={{ color: "#cd853f", fontSize: 12, display: "block", marginBottom: 3 }}>ISO Datetime (e.g. 2025-03-28T23:59:59+08:00)</label>
+      <div style={{ background: "rgba(255,255,255,0.95)", border: "2px solid #fce4ec", borderRadius: 16, padding: "1.8rem", boxShadow: "0 4px 15px rgba(233, 30, 99, 0.1)" }}>
+        <h4 style={{ fontFamily: "'Playfair Display',serif", color: "#e91e63", margin: "0 0 1rem", fontSize: 18, fontWeight: 600 }}>⏳ Tarikh Akhir Pesanan</h4>
+        <label style={{ color: "#e91e63", fontSize: 13, display: "block", marginBottom: 4, fontWeight: 500 }}>ISO Datetime (e.g. 2025-03-28T23:59:59+08:00)</label>
         <input value={deadline} onChange={e => setDeadline(e.target.value)} style={inputStyle} />
-        <button onClick={saveDeadline} style={{ marginTop: 10, background: "#8B4513", border: "none", color: "#fff", padding: "8px 20px", borderRadius: 6, cursor: "pointer", fontFamily: "'Playfair Display',serif" }}>Simpan</button>
+        <button onClick={saveDeadline} style={{ marginTop: 12, background: "linear-gradient(135deg, #e91e63, #ffb74d)", border: "none", color: "#fff", padding: "10px 24px", borderRadius: 25, cursor: "pointer", fontFamily: "'Playfair Display',serif", fontSize: 15, fontWeight: 600, boxShadow: "0 4px 15px rgba(233, 30, 99, 0.3)" }}>Simpan</button>
       </div>
     </div>
   );

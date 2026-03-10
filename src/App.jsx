@@ -184,7 +184,7 @@ function HomePage() {
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "4rem 2rem", width: "100%", position: "relative", zIndex: 2 }}>
         <div style={{ maxWidth: 600 }}>
           <div style={{ color: "#e91e63", letterSpacing: 4, fontSize: 12, fontFamily: "'Playfair Display',serif", marginBottom: 20, fontWeight: 600, textTransform: "uppercase" }}>Koleksi Premium Raya 2025</div>
-          <h1 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(2.8rem,6vw,5rem)", color: "#3e2723", lineHeight: 1.1, margin: "0 0 1.8rem", fontWeight: 700 }}>
+          <h1 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(2.8rem,6vw,5rem)", color: "#2c1810", lineHeight: 1.1, margin: "0 0 1.8rem", fontWeight: 700 }}>
             Manis Raya,<br /><em style={{ color: "#e91e63", fontStyle: "italic" }}>Sampai ke Pintu</em>
           </h1>
           <p style={{ color: "#5d4037", fontSize: 18, lineHeight: 1.7, marginBottom: "2.5rem", maxWidth: 500, fontWeight: 400 }}>
@@ -326,7 +326,7 @@ function AppInner() {
   }, []);
 
   return (
-    <div style={{ minHeight: "100vh", background: "#0d0500", fontFamily: "Georgia, serif" }}>
+    <div style={{ minHeight: "100vh", background: "linear-gradient(135deg, #fef7f0, #fff8f2)", fontFamily: "Georgia, serif" }}>
       <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet" />
       <Navbar />
       <CountdownBanner deadline={deadline} />
@@ -341,9 +341,9 @@ function AppInner() {
         <Route path="/admin"              element={<AdminPage />} />
         <Route path="/payment/return"     element={<PaymentReturnPage />} />
       </Routes>
-      <footer style={{ borderTop: "1px solid rgba(139,69,19,.2)", padding: "2rem", textAlign: "center", color: "#7a5a3a", fontSize: 12, marginTop: "3rem" }}>
-        <div style={{ fontFamily: "'Playfair Display',serif", color: "#cd853f", marginBottom: 4 }}>🌙 Biskut Raya Premium Collection 2025</div>
-        <div>Pembayaran FPX melalui ToyyibPay · Penghantaran Seluruh Malaysia · © 2025</div>
+      <footer style={{ borderTop: "2px solid #fce4ec", padding: "2rem", textAlign: "center", background: "rgba(255,255,255,0.9)", marginTop: "3rem", boxShadow: "0 -2px 10px rgba(233, 30, 99, 0.1)" }}>
+        <div style={{ fontFamily: "'Playfair Display',serif", color: "#e91e63", marginBottom: 8, fontSize: 16, fontWeight: 600 }}>🌙 Biskut Raya Premium Collection 2025</div>
+        <div style={{ color: "#5d4037", fontSize: 13 }}>Pembayaran FPX melalui ToyyibPay · Penghantaran Seluruh Malaysia · © 2025</div>
       </footer>
     </div>
   );
