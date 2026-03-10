@@ -11,6 +11,7 @@ const cors = require("cors");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 const path = require("path");
+const fs = require("fs");
 
 const app = express();
 
@@ -68,13 +69,22 @@ app.use("/api",            authRoutes);
 
 // ─── Static files & SPA fallback ──────────────────────────────
 // Serve static files from dist (built frontend)
-const distPath = path.join(__dirname, "dist");
-app.use(express.static(distPath));
+// Handle both local and Vercel deployment paths
+const distPath = path.resolve(__dirname, "dist");
+const distExists = fs.existsSync(distPath);
+
+if (distExists) {
+  app.use(express.static(distPath));
+}
 
 // For SPA: serve index.html for all non-API routes
 // This must come after API routes but catch everything else
 app.use((req, res) => {
-  res.sendFile(path.join(distPath, "index.html"));
+  if (distExists) {
+    res.sendFile(path.join(distPath, "index.html"));
+  } else {
+    res.status(500).json({ error: "Frontend build not found. Make sure to run 'npm run build'" });
+  }
 });
 
 // ─── Health check ─────────────────────────────────────────────
