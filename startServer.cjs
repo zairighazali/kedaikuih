@@ -115,7 +115,4 @@ if (!process.env.VERCEL && !process.env.VERCEL_ENV) {
   });
 }
 
-// Vercel serverless function export
-module.exports = (req, res) => {
-  return app(req, res);
-};
+module.exports = app;
