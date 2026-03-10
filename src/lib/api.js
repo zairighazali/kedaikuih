@@ -4,7 +4,15 @@
 import axios from "axios";
 import { getIdToken } from "./firebase";
 
-const BASE_URL = import.meta.env.VITE_API_URL || "/api";
+// Determine BASE_URL intelligently:
+// 1. In Vite dev mode: use VITE_API_URL (configured via vite proxy) or fallback to /api
+// 2. In production (Vercel): always use /api (both frontend & backend on same domain)
+let BASE_URL = "/api";
+
+if (import.meta.env.DEV) {
+  // In development, use the configured VITE_API_URL or /api
+  BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:4000/api";
+}
 
 const api = axios.create({ baseURL: BASE_URL });
 
