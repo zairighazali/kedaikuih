@@ -1,30 +1,17 @@
 {
   "version": 2,
   "buildCommand": "npm run build",
-  "installCommand": "npm install",
+  "outputDirectory": "dist",
   "builds": [
     {
       "src": "startServer.cjs",
-      "use": "@vercel/node",
-      "config": {
-        "includeFiles": "dist/**"
-      }
+      "use": "@vercel/node"
     }
   ],
   "routes": [
     { "src": "/api/(.*)", "dest": "/startServer.cjs" },
-    { "src": "/health", "dest": "/startServer.cjs" },
-    { "src": "/(.*)", "dest": "/startServer.cjs" }
-  ],
-  "headers": [
-    {
-      "source": "/api/(.*)",
-      "headers": [
-        {
-  "key": "Content-Security-Policy",
-  "value": "default-src 'self'; connect-src 'self' https://kedaikuih.vercel.app/"
-}
-      ]
-    }
+    { "src": "/health",   "dest": "/startServer.cjs" },
+    { "handle": "filesystem" },
+    { "src": "/(.*)",     "dest": "/index.html" }
   ]
 }
