@@ -70,11 +70,30 @@ app.use("/api",            authRoutes);
 // ─── Static files & SPA fallback ──────────────────────────────
 // Serve static files from dist (built frontend)
 // Handle both local and Vercel deployment paths
-const distPath = path.resolve(__dirname, "dist");
-const distExists = fs.existsSync(distPath);
+let distPath = path.resolve(__dirname, "dist");
+let distExists = fs.existsSync(distPath);
+
+// On Vercel, try looking in different possible locations
+if (!distExists && process.env.VERCEL) {
+  const alternativePaths = [
+    path.resolve(process.cwd(), "dist"),
+    path.resolve("/var/task", "dist"),
+    path.resolve("/opt", "dist"),
+  ];
+  
+  for (const altPath of alternativePaths) {
+    if (fs.existsSync(altPath)) {
+      distPath = altPath;
+      distExists = true;
+      break;
+    }
+  }
+}
 
 if (distExists) {
   app.use(express.static(distPath));
+} else {
+  console.warn("⚠️  dist folder not found at:", distPath);
 }
 
 // For SPA: serve index.html for all non-API routes
