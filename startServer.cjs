@@ -16,7 +16,11 @@ const fs = require("fs");
 const app = express();
 
 // ─── Security & middleware ────────────────────────────────────
-app.use(helmet());
+// Helmet provides several security headers.  Its default CSP is very
+// restrictive and was being applied to API JSON responses, leading the
+// browser to reject XHRs with a blocked:csp error.  We only need a CSP
+// on the HTML page itself (handled by Vercel), so turn it off here.
+app.use(helmet({ contentSecurityPolicy: false }));
 app.use(cors({
   origin: function (origin, callback) {
     const allowedOrigins = [
@@ -104,6 +108,14 @@ app.use((req, res) => {
   } else {
     res.status(500).json({ error: "Frontend build not found. Make sure to run 'npm run build'" });
   }
+});
+
+// For API routes we don't want Vercel's default CSP header to interfere with
+// the frontend.  When a JSON response carries a CSP, some browsers will treat
+// it as a policy for the page and block subsequent requests.  Strip it out now.
+app.use("/api", (req, res, next) => {
+  res.removeHeader("content-security-policy");
+  next();
 });
 
 // ─── Health check ─────────────────────────────────────────────
