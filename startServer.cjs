@@ -10,17 +10,37 @@ const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
-const path = require("path");
-const fs = require("fs");
 
 const app = express();
 
 // ─── Security & middleware ────────────────────────────────────
-// Helmet provides several security headers.  Its default CSP is very
-// restrictive and was being applied to API JSON responses, leading the
-// browser to reject XHRs with a blocked:csp error.  We only need a CSP
-// on the HTML page itself (handled by Vercel), so turn it off here.
-app.use(helmet({ contentSecurityPolicy: false }));
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc:     ["'self'"],
+      scriptSrc:      ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
+      styleSrc:       ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+      fontSrc:        ["'self'", "https://fonts.gstatic.com"],
+      imgSrc:         ["'self'", "data:", "https:", "blob:"],
+      connectSrc: [
+        "'self'",
+        // Firebase Auth token refresh
+        "https://securetoken.googleapis.com",
+        "https://identitytoolkit.googleapis.com",
+        "https://*.firebaseio.com",
+        "https://*.firebase.com",
+        // ToyyibPay payment gateway
+        "https://toyyibpay.com",
+        // Neon DB (server-side only, but safe to allow)
+        "https://*.neon.tech",
+      ],
+      frameSrc:       ["'self'", "https://toyyibpay.com"],
+      objectSrc:      ["'none'"],
+      upgradeInsecureRequests: [],
+    },
+  },
+  crossOriginEmbedderPolicy: false, // needed for some Firebase SDK versions
+}));
 app.use(cors({
   origin: function (origin, callback) {
     const allowedOrigins = [
@@ -71,55 +91,11 @@ app.use("/api/affiliates", affiliateRoutes);
 // Promo validation & settings also in auth.js but mounted at /api
 app.use("/api",            authRoutes);
 
-// ─── Static files & SPA fallback ──────────────────────────────
-// Serve static files from dist (built frontend)
-// Handle both local and Vercel deployment paths
-let distPath = path.resolve(__dirname, "dist");
-let distExists = fs.existsSync(distPath);
-
-// On Vercel, try looking in different possible locations
-if (!distExists && process.env.VERCEL) {
-  const alternativePaths = [
-    path.resolve(process.cwd(), "dist"),
-    path.resolve("/var/task", "dist"),
-    path.resolve("/opt", "dist"),
-  ];
-  
-  for (const altPath of alternativePaths) {
-    if (fs.existsSync(altPath)) {
-      distPath = altPath;
-      distExists = true;
-      break;
-    }
-  }
-}
-
-if (distExists) {
-  app.use(express.static(distPath));
-} else {
-  console.warn("⚠️  dist folder not found at:", distPath);
-}
-
-// For SPA: serve index.html for all non-API routes
-// This must come after API routes but catch everything else
-app.use((req, res) => {
-  if (distExists) {
-    res.sendFile(path.join(distPath, "index.html"));
-  } else {
-    res.status(500).json({ error: "Frontend build not found. Make sure to run 'npm run build'" });
-  }
-});
-
-// For API routes we don't want Vercel's default CSP header to interfere with
-// the frontend.  When a JSON response carries a CSP, some browsers will treat
-// it as a policy for the page and block subsequent requests.  Strip it out now.
-app.use("/api", (req, res, next) => {
-  res.removeHeader("content-security-policy");
-  next();
-});
-
 // ─── Health check ─────────────────────────────────────────────
 app.get("/health", (req, res) => res.json({ status: "ok", timestamp: new Date() }));
+
+// ─── 404 handler ──────────────────────────────────────────────
+app.use((req, res) => res.status(404).json({ error: "Route not found" }));
 
 // ─── Error handler ────────────────────────────────────────────
 app.use((err, req, res, next) => {
