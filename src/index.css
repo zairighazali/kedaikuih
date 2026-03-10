@@ -1,0 +1,115 @@
+/* Global styles for Kedaikuih - Light, aesthetic dessert theme */
+
+:root {
+  /* Color Palette - Light & Eye-catching for Desserts */
+  --primary-bg: #fef7f0;        /* Very light cream */
+  --secondary-bg: #fff8f2;      /* Slightly warmer cream */
+  --accent-bg: #fef2f2;         /* Soft pink accent */
+
+  --primary-color: #e91e63;     /* Vibrant rose pink */
+  --secondary-color: #ffb74d;   /* Warm peach */
+  --accent-color: #81c784;      /* Soft mint green */
+  --highlight-color: #ffd54f;   /* Light gold */
+
+  --text-primary: #3e2723;      /* Rich dark brown */
+  --text-secondary: #5d4037;    /* Medium brown */
+  --text-light: #8d6e63;        /* Light brown */
+
+  --border-color: #fce4ec;      /* Very light pink border */
+  --shadow-color: rgba(233, 30, 99, 0.1);
+
+  /* Typography */
+  --font-primary: 'Playfair Display', serif;
+  --font-secondary: 'Inter', sans-serif;
+}
+
+/* Global body styles */
+body {
+  margin: 0;
+  font-family: var(--font-secondary);
+  background: linear-gradient(135deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
+  color: var(--text-primary);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* Smooth transitions for all elements */
+* {
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--secondary-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--secondary-color);
+}
+
+/* Button base styles */
+button, .btn {
+  font-family: var(--font-secondary);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px var(--shadow-color);
+}
+
+button:hover, .btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px var(--shadow-color);
+}
+
+button:active, .btn:active {
+  transform: translateY(0);
+}
+
+/* Link styles */
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--secondary-color);
+}
+
+/* Card styles */
+.card {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 16px;
+  box-shadow: 0 4px 20px var(--shadow-color);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border-color);
+}
+
+/* Input styles */
+input, textarea, select {
+  font-family: var(--font-secondary);
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.8);
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(233, 30, 99, 0.1);
+}
