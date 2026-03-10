@@ -58,6 +58,10 @@ function Navbar() {
   const { itemCount } = useCart();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  // Truncate user name for mobile display
+  const displayName = dbUser?.full_name || dbUser?.email || "";
+  const truncatedName = displayName.length > 20 ? displayName.substring(0, 17) + "..." : displayName;
+
   return (
     <nav style={{ background: "rgba(255,255,255,0.95)", backdropFilter: "blur(10px)", borderBottom: "2px solid #fce4ec", position: "sticky", top: 0, zIndex: 100, boxShadow: "0 2px 20px rgba(233, 30, 99, 0.1)" }}>
       <div className="nav-content" style={{ maxWidth: 1200, margin: "0 auto", padding: "0 1.5rem", display: "flex", alignItems: "center", justifyContent: "space-between", height: 70, position: "relative" }}>
@@ -78,24 +82,24 @@ function Navbar() {
           {mobileMenuOpen ? "✕" : "☰"}
         </button>
 
-        <div className="nav-links" style={{ display: "flex", alignItems: "center", gap: "1.5rem" }}>
-          <Link to="/shop" style={{ color: "#e91e63", textDecoration: "none", fontFamily: "'Playfair Display',serif", fontSize: 15, fontWeight: 600, padding: "8px 16px", borderRadius: "20px", transition: "all 0.3s ease" }} onMouseEnter={(e) => e.target.style.background = "#fce4ec"} onMouseLeave={(e) => e.target.style.background = "transparent"}>Kedai</Link>
-          {isAffiliate && <Link to="/affiliate" style={{ color: "#e91e63", textDecoration: "none", fontFamily: "'Playfair Display',serif", fontSize: 15, fontWeight: 600, padding: "8px 16px", borderRadius: "20px", transition: "all 0.3s ease" }} onMouseEnter={(e) => e.target.style.background = "#fce4ec"} onMouseLeave={(e) => e.target.style.background = "transparent"}>Dashboard</Link>}
-          {isAdmin && <Link to="/admin" style={{ color: "#e91e63", textDecoration: "none", fontFamily: "'Playfair Display',serif", fontSize: 15, fontWeight: 600, padding: "8px 16px", borderRadius: "20px", transition: "all 0.3s ease" }} onMouseEnter={(e) => e.target.style.background = "#fce4ec"} onMouseLeave={(e) => e.target.style.background = "transparent"}>Admin</Link>}
+        <div className="nav-links" style={{ display: "flex", alignItems: "center", gap: "clamp(0.5rem, 2vw, 1.5rem)" }}>
+          <Link to="/shop" style={{ color: "#e91e63", textDecoration: "none", fontFamily: "'Playfair Display',serif", fontSize: "clamp(13px, 2.5vw, 15px)", fontWeight: 600, padding: "clamp(6px, 1.5vw, 8px) clamp(10px, 2vw, 16px)", borderRadius: "20px", transition: "all 0.3s ease" }} onMouseEnter={(e) => e.target.style.background = "#fce4ec"} onMouseLeave={(e) => e.target.style.background = "transparent"}>Kedai</Link>
+          {isAffiliate && <Link to="/affiliate" style={{ color: "#e91e63", textDecoration: "none", fontFamily: "'Playfair Display',serif", fontSize: "clamp(13px, 2.5vw, 15px)", fontWeight: 600, padding: "clamp(6px, 1.5vw, 8px) clamp(10px, 2vw, 16px)", borderRadius: "20px", transition: "all 0.3s ease" }} onMouseEnter={(e) => e.target.style.background = "#fce4ec"} onMouseLeave={(e) => e.target.style.background = "transparent"}>Dashboard</Link>}
+          {isAdmin && <Link to="/admin" style={{ color: "#e91e63", textDecoration: "none", fontFamily: "'Playfair Display',serif", fontSize: "clamp(13px, 2.5vw, 15px)", fontWeight: 600, padding: "clamp(6px, 1.5vw, 8px) clamp(10px, 2vw, 16px)", borderRadius: "20px", transition: "all 0.3s ease" }} onMouseEnter={(e) => e.target.style.background = "#fce4ec"} onMouseLeave={(e) => e.target.style.background = "transparent"}>Admin</Link>}
 
           {dbUser ? (
             <>
-              <span className="hide-mobile" style={{ color: "#5d4037", fontSize: 13, fontWeight: 500 }}>{dbUser.full_name || dbUser.email}</span>
-              <button onClick={logout} style={{ background: "#e91e63", border: "none", color: "#fff", cursor: "pointer", padding: "6px 16px", borderRadius: 20, fontSize: 13, fontWeight: 600 }}>Keluar</button>
+              <span className="user-name-display" style={{ color: "#5d4037", fontSize: "clamp(11px, 2vw, 13px)", fontWeight: 500, maxWidth: "clamp(80px, 15vw, 150px)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }} title={displayName}>{truncatedName}</span>
+              <button onClick={logout} style={{ background: "#e91e63", border: "none", color: "#fff", cursor: "pointer", padding: "clamp(5px, 1.2vw, 6px) clamp(10px, 2vw, 16px)", borderRadius: 20, fontSize: "clamp(11px, 2vw, 13px)", fontWeight: 600 }}>Keluar</button>
             </>
           ) : (
-            <Link to="/login" style={{ background: "linear-gradient(135deg, #e91e63, #ffb74d)", color: "#fff", padding: "8px 20px", borderRadius: 25, fontSize: 14, textDecoration: "none", fontFamily: "'Playfair Display',serif", fontWeight: 600, boxShadow: "0 4px 15px rgba(233, 30, 99, 0.3)" }}>Log Masuk</Link>
+            <Link to="/login" style={{ background: "linear-gradient(135deg, #e91e63, #ffb74d)", color: "#fff", padding: "clamp(6px, 1.5vw, 8px) clamp(12px, 2.5vw, 20px)", borderRadius: 25, fontSize: "clamp(12px, 2.5vw, 14px)", textDecoration: "none", fontFamily: "'Playfair Display',serif", fontWeight: 600, boxShadow: "0 4px 15px rgba(233, 30, 99, 0.3)" }}>Log Masuk</Link>
           )}
 
-          <Link to="/cart" style={{ position: "relative", fontSize: 26, textDecoration: "none" }}>
+          <Link to="/cart" style={{ position: "relative", fontSize: "clamp(22px, 4vw, 26px)", textDecoration: "none" }}>
             🛒
             {itemCount > 0 && (
-              <span style={{ position: "absolute", top: -8, right: -10, background: "#e91e63", color: "#fff", borderRadius: "50%", width: 22, height: 22, fontSize: 11, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, boxShadow: "0 2px 8px rgba(233, 30, 99, 0.3)" }}>
+              <span style={{ position: "absolute", top: -8, right: -10, background: "#e91e63", color: "#fff", borderRadius: "50%", width: "clamp(18px, 3vw, 22px)", height: "clamp(18px, 3vw, 22px)", fontSize: "clamp(9px, 2vw, 11px)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, boxShadow: "0 2px 8px rgba(233, 30, 99, 0.3)" }}>
                 {itemCount}
               </span>
             )}
@@ -104,18 +108,33 @@ function Navbar() {
 
         {/* Mobile menu */}
         {mobileMenuOpen && (
-          <div style={{ position: "absolute", top: "100%", left: 0, right: 0, background: "rgba(255,255,255,0.95)", borderBottom: "2px solid #fce4ec", padding: "1rem", display: "flex", flexDirection: "column", gap: "0.5rem", boxShadow: "0 4px 20px rgba(233, 30, 99, 0.1)" }}>
-            <Link to="/shop" onClick={() => setMobileMenuOpen(false)} style={{ color: "#e91e63", textDecoration: "none", fontFamily: "'Playfair Display',serif", fontSize: 15, fontWeight: 600, padding: "8px 16px", borderRadius: "20px" }}>Kedai</Link>
-            {isAffiliate && <Link to="/affiliate" onClick={() => setMobileMenuOpen(false)} style={{ color: "#e91e63", textDecoration: "none", fontFamily: "'Playfair Display',serif", fontSize: 15, fontWeight: 600, padding: "8px 16px", borderRadius: "20px" }}>Dashboard</Link>}
-            {isAdmin && <Link to="/admin" onClick={() => setMobileMenuOpen(false)} style={{ color: "#e91e63", textDecoration: "none", fontFamily: "'Playfair Display',serif", fontSize: 15, fontWeight: 600, padding: "8px 16px", borderRadius: "20px" }}>Admin</Link>}
+          <div style={{ position: "absolute", top: "100%", left: 0, right: 0, background: "rgba(255,255,255,0.98)", borderBottom: "2px solid #fce4ec", padding: "clamp(1rem, 3vw, 1.5rem)", display: "flex", flexDirection: "column", gap: "clamp(0.5rem, 1.5vw, 0.75rem)", boxShadow: "0 4px 20px rgba(233, 30, 99, 0.1)", maxHeight: "80vh", overflowY: "auto" }}>
+            <Link to="/shop" onClick={() => setMobileMenuOpen(false)} style={{ color: "#e91e63", textDecoration: "none", fontFamily: "'Playfair Display',serif", fontSize: "clamp(15px, 3vw, 16px)", fontWeight: 600, padding: "clamp(8px, 2vw, 10px) clamp(12px, 3vw, 16px)", borderRadius: "20px", transition: "all 0.3s ease" }} onMouseEnter={(e) => e.target.style.background = "#fce4ec"} onMouseLeave={(e) => e.target.style.background = "transparent"}>Kedai</Link>
+            {isAffiliate && <Link to="/affiliate" onClick={() => setMobileMenuOpen(false)} style={{ color: "#e91e63", textDecoration: "none", fontFamily: "'Playfair Display',serif", fontSize: "clamp(15px, 3vw, 16px)", fontWeight: 600, padding: "clamp(8px, 2vw, 10px) clamp(12px, 3vw, 16px)", borderRadius: "20px", transition: "all 0.3s ease" }} onMouseEnter={(e) => e.target.style.background = "#fce4ec"} onMouseLeave={(e) => e.target.style.background = "transparent"}>Dashboard</Link>}
+            {isAdmin && <Link to="/admin" onClick={() => setMobileMenuOpen(false)} style={{ color: "#e91e63", textDecoration: "none", fontFamily: "'Playfair Display',serif", fontSize: "clamp(15px, 3vw, 16px)", fontWeight: 600, padding: "clamp(8px, 2vw, 10px) clamp(12px, 3vw, 16px)", borderRadius: "20px", transition: "all 0.3s ease" }} onMouseEnter={(e) => e.target.style.background = "#fce4ec"} onMouseLeave={(e) => e.target.style.background = "transparent"}>Admin</Link>}
+
+            {/* Cart link in mobile menu */}
+            <Link to="/cart" onClick={() => setMobileMenuOpen(false)} style={{ color: "#e91e63", textDecoration: "none", fontFamily: "'Playfair Display',serif", fontSize: "clamp(15px, 3vw, 16px)", fontWeight: 600, padding: "clamp(8px, 2vw, 10px) clamp(12px, 3vw, 16px)", borderRadius: "20px", display: "flex", alignItems: "center", gap: "clamp(8px, 2vw, 12px)", transition: "all 0.3s ease" }} onMouseEnter={(e) => e.target.style.background = "#fce4ec"} onMouseLeave={(e) => e.target.style.background = "transparent"}>
+              <span>🛒 Troli</span>
+              {itemCount > 0 && (
+                <span style={{ background: "#e91e63", color: "#fff", borderRadius: "50%", width: "clamp(18px, 3vw, 20px)", height: "clamp(18px, 3vw, 20px)", fontSize: "clamp(10px, 2vw, 11px)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700 }}>
+                  {itemCount}
+                </span>
+              )}
+            </Link>
+
+            {/* Divider */}
+            <div style={{ height: 1, background: "#fce4ec", margin: "clamp(0.5rem, 1.5vw, 0.75rem) 0" }}></div>
 
             {dbUser ? (
               <>
-                <span style={{ color: "#5d4037", fontSize: 13, fontWeight: 500, padding: "8px 16px" }}>{dbUser.full_name || dbUser.email}</span>
-                <button onClick={logout} style={{ background: "#e91e63", border: "none", color: "#fff", cursor: "pointer", padding: "8px 16px", borderRadius: 20, fontSize: 13, fontWeight: 600, alignSelf: "flex-start" }}>Keluar</button>
+                <div style={{ color: "#5d4037", fontSize: "clamp(13px, 2.5vw, 14px)", fontWeight: 500, padding: "clamp(6px, 1.5vw, 8px) clamp(12px, 3vw, 16px)", background: "rgba(252, 228, 236, 0.5)", borderRadius: "12px", textAlign: "center" }}>
+                  {truncatedName}
+                </div>
+                <button onClick={() => { logout(); setMobileMenuOpen(false); }} style={{ background: "#e91e63", border: "none", color: "#fff", cursor: "pointer", padding: "clamp(8px, 2vw, 10px) clamp(16px, 4vw, 20px)", borderRadius: 20, fontSize: "clamp(13px, 2.5vw, 14px)", fontWeight: 600, alignSelf: "center", marginTop: "clamp(0.25rem, 0.8vw, 0.5rem)" }}>Keluar</button>
               </>
             ) : (
-              <Link to="/login" onClick={() => setMobileMenuOpen(false)} style={{ background: "linear-gradient(135deg, #e91e63, #ffb74d)", color: "#fff", padding: "8px 20px", borderRadius: 25, fontSize: 14, textDecoration: "none", fontFamily: "'Playfair Display',serif", fontWeight: 600, alignSelf: "flex-start", boxShadow: "0 4px 15px rgba(233, 30, 99, 0.3)" }}>Log Masuk</Link>
+              <Link to="/login" onClick={() => setMobileMenuOpen(false)} style={{ background: "linear-gradient(135deg, #e91e63, #ffb74d)", color: "#fff", padding: "clamp(8px, 2vw, 10px) clamp(16px, 4vw, 20px)", borderRadius: 25, fontSize: "clamp(13px, 2.5vw, 14px)", textDecoration: "none", fontFamily: "'Playfair Display',serif", fontWeight: 600, alignSelf: "center", boxShadow: "0 4px 15px rgba(233, 30, 99, 0.3)" }}>Log Masuk</Link>
             )}
           </div>
         )}
