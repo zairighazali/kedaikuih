@@ -33,7 +33,7 @@ export default function ShopPage() {
   const [promoResult, setPromoResult] = useState(null);
   const [promoError, setPromoError] = useState("");
 
-  const { addItem, appliedPromo } = useCart();
+  const { addItem, appliedPromo, setAppliedPromo } = useCart();
 
   // Track affiliate click if ref code in URL
   useEffect(() => {
@@ -68,7 +68,7 @@ export default function ShopPage() {
       const res = await promoApi.validate(promoCode);
       setPromoResult(res.data);
       // Persist in cart context
-      useCart().setAppliedPromo({ promo_code: res.data.promo_code, discount_pct: res.data.discount_pct });
+      setAppliedPromo({ promo_code: res.data.promo_code, discount_pct: res.data.discount_pct });
     } catch (err) {
       setPromoError(err.message);
       setPromoResult(null);

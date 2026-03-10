@@ -2,28 +2,14 @@
   "version": 2,
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/startServer.cjs" },
+    { "source": "/health",   "destination": "/startServer.cjs" }
+  ],
   "builds": [
     {
       "src": "startServer.cjs",
       "use": "@vercel/node"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/startServer.cjs"
-    },
-    {
-      "src": "/health",
-      "dest": "/startServer.cjs"
-    },
-    {
-      "src": "/(.*\\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot|json|webp|avif|mp4|webm))",
-      "dest": "/dist/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/dist/index.html"
     }
   ]
 }
