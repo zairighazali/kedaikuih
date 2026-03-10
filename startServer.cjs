@@ -70,12 +70,15 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: "Internal server error" });
 });
 
-app.listen(PORT, () => {
-  console.log(`\n🌙 Biskut Raya API running on http://localhost:${PORT}`);
-  console.log(`   Environment: ${process.env.NODE_ENV || "development"}`);
-  console.log(`   DB: ${process.env.DATABASE_URL ? "✅ Neon configured" : "❌ DATABASE_URL missing"}`);
-  console.log(`   Firebase: ${process.env.FIREBASE_PROJECT_ID ? "✅ Configured" : "❌ FIREBASE_PROJECT_ID missing"}`);
-  console.log(`   ToyyibPay: ${process.env.TOYYIBPAY_SECRET_KEY ? "✅ Configured" : "⚠️  Not configured (payment disabled)"}\n`);
-});
+// ─── Start server only in local development ───────────────────
+if (!process.env.VERCEL && !process.env.VERCEL_ENV) {
+  app.listen(PORT, () => {
+    console.log(`\n🌙 Biskut Raya API running on http://localhost:${PORT}`);
+    console.log(`   Environment: ${process.env.NODE_ENV || "development"}`);
+    console.log(`   DB: ${process.env.DATABASE_URL ? "✅ Neon configured" : "❌ DATABASE_URL missing"}`);
+    console.log(`   Firebase: ${process.env.FIREBASE_PROJECT_ID ? "✅ Configured" : "❌ FIREBASE_PROJECT_ID missing"}`);
+    console.log(`   ToyyibPay: ${process.env.TOYYIBPAY_SECRET_KEY ? "✅ Configured" : "⚠️  Not configured (payment disabled)"}\n`);
+  });
+}
 
 module.exports = app;
