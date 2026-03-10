@@ -35,16 +35,16 @@ function CountdownBanner({ deadline }) {
   if (!deadline) return null;
   return (
     <div style={{ background: "linear-gradient(135deg,#e91e63,#ffb74d)", padding: "12px 0", textAlign: "center", boxShadow: "0 2px 10px rgba(233, 30, 99, 0.1)" }}>
-      <div style={{ color: "#fff", fontFamily: "'Playfair Display',serif", fontSize: 14, letterSpacing: 1, marginBottom: 6, fontWeight: 600 }}>
+      <div style={{ color: "#fff", fontFamily: "'Playfair Display',serif", fontSize: "clamp(12px, 3vw, 14px)", letterSpacing: 1, marginBottom: 6, fontWeight: 600, padding: "0 1rem" }}>
         ⏳ Tarikh Akhir Pesanan — Kuih tiba sebelum Hari Raya!
       </div>
-      <div style={{ display: "flex", justifyContent: "center", gap: 16 }}>
+      <div style={{ display: "flex", justifyContent: "center", gap: "clamp(8px, 4vw, 16px)", flexWrap: "wrap", padding: "0 1rem" }}>
         {[["d", "Hari"], ["h", "Jam"], ["m", "Minit"], ["s", "Saat"]].map(([k, label]) => (
-          <div key={k} style={{ textAlign: "center" }}>
-            <div style={{ background: "rgba(255,255,255,0.9)", color: "#e91e63", fontFamily: "monospace", fontSize: 20, fontWeight: 700, padding: "4px 12px", borderRadius: 8, minWidth: 40, boxShadow: "0 2px 8px rgba(233, 30, 99, 0.2)" }}>
+          <div key={k} style={{ textAlign: "center", minWidth: "clamp(35px, 8vw, 50px)" }}>
+            <div style={{ background: "rgba(255,255,255,0.9)", color: "#e91e63", fontFamily: "monospace", fontSize: "clamp(16px, 4vw, 20px)", fontWeight: 700, padding: "4px 8px", borderRadius: 8, boxShadow: "0 2px 8px rgba(233, 30, 99, 0.2)" }}>
               {String({ d, h, m, s }[k]).padStart(2, "0")}
             </div>
-            <div style={{ color: "#ffb74d", fontSize: 10, marginTop: 4, fontWeight: 600 }}>{label}</div>
+            <div style={{ color: "#ffb74d", fontSize: "clamp(8px, 2vw, 10px)", marginTop: 4, fontWeight: 600 }}>{label}</div>
           </div>
         ))}
       </div>
@@ -56,26 +56,36 @@ function CountdownBanner({ deadline }) {
 function Navbar() {
   const { dbUser, isAdmin, isAffiliate, logout } = useAuth();
   const { itemCount } = useCart();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
     <nav style={{ background: "rgba(255,255,255,0.95)", backdropFilter: "blur(10px)", borderBottom: "2px solid #fce4ec", position: "sticky", top: 0, zIndex: 100, boxShadow: "0 2px 20px rgba(233, 30, 99, 0.1)" }}>
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 1.5rem", display: "flex", alignItems: "center", justifyContent: "space-between", height: 70 }}>
+      <div className="nav-content" style={{ maxWidth: 1200, margin: "0 auto", padding: "0 1.5rem", display: "flex", alignItems: "center", justifyContent: "space-between", height: 70, position: "relative" }}>
         <Link to="/" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: 12 }}>
           <span style={{ fontSize: 32 }}>🧁</span>
           <div>
-            <div style={{ fontFamily: "'Playfair Display',serif", color: "#e91e63", fontSize: 20, fontWeight: 700, lineHeight: 1 }}>Biskut Raya</div>
+            <div className="nav-brand" style={{ fontFamily: "'Playfair Display',serif", color: "#e91e63", fontSize: 20, fontWeight: 700, lineHeight: 1 }}>Biskut Raya</div>
             <div style={{ color: "#ffb74d", fontSize: 10, letterSpacing: 2, fontWeight: 600 }}>SWEET DELIGHTS</div>
           </div>
         </Link>
 
-        <div style={{ display: "flex", alignItems: "center", gap: "1.5rem" }}>
+        {/* Mobile menu button */}
+        <button
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          style={{ display: "none", background: "none", border: "none", fontSize: 24, color: "#e91e63", cursor: "pointer" }}
+          className="mobile-menu-btn"
+        >
+          {mobileMenuOpen ? "✕" : "☰"}
+        </button>
+
+        <div className="nav-links" style={{ display: "flex", alignItems: "center", gap: "1.5rem" }}>
           <Link to="/shop" style={{ color: "#e91e63", textDecoration: "none", fontFamily: "'Playfair Display',serif", fontSize: 15, fontWeight: 600, padding: "8px 16px", borderRadius: "20px", transition: "all 0.3s ease" }} onMouseEnter={(e) => e.target.style.background = "#fce4ec"} onMouseLeave={(e) => e.target.style.background = "transparent"}>Kedai</Link>
           {isAffiliate && <Link to="/affiliate" style={{ color: "#e91e63", textDecoration: "none", fontFamily: "'Playfair Display',serif", fontSize: 15, fontWeight: 600, padding: "8px 16px", borderRadius: "20px", transition: "all 0.3s ease" }} onMouseEnter={(e) => e.target.style.background = "#fce4ec"} onMouseLeave={(e) => e.target.style.background = "transparent"}>Dashboard</Link>}
           {isAdmin && <Link to="/admin" style={{ color: "#e91e63", textDecoration: "none", fontFamily: "'Playfair Display',serif", fontSize: 15, fontWeight: 600, padding: "8px 16px", borderRadius: "20px", transition: "all 0.3s ease" }} onMouseEnter={(e) => e.target.style.background = "#fce4ec"} onMouseLeave={(e) => e.target.style.background = "transparent"}>Admin</Link>}
 
           {dbUser ? (
             <>
-              <span style={{ color: "#5d4037", fontSize: 13, fontWeight: 500 }}>{dbUser.full_name || dbUser.email}</span>
+              <span className="hide-mobile" style={{ color: "#5d4037", fontSize: 13, fontWeight: 500 }}>{dbUser.full_name || dbUser.email}</span>
               <button onClick={logout} style={{ background: "#e91e63", border: "none", color: "#fff", cursor: "pointer", padding: "6px 16px", borderRadius: 20, fontSize: 13, fontWeight: 600 }}>Keluar</button>
             </>
           ) : (
@@ -91,6 +101,24 @@ function Navbar() {
             )}
           </Link>
         </div>
+
+        {/* Mobile menu */}
+        {mobileMenuOpen && (
+          <div style={{ position: "absolute", top: "100%", left: 0, right: 0, background: "rgba(255,255,255,0.95)", borderBottom: "2px solid #fce4ec", padding: "1rem", display: "flex", flexDirection: "column", gap: "0.5rem", boxShadow: "0 4px 20px rgba(233, 30, 99, 0.1)" }}>
+            <Link to="/shop" onClick={() => setMobileMenuOpen(false)} style={{ color: "#e91e63", textDecoration: "none", fontFamily: "'Playfair Display',serif", fontSize: 15, fontWeight: 600, padding: "8px 16px", borderRadius: "20px" }}>Kedai</Link>
+            {isAffiliate && <Link to="/affiliate" onClick={() => setMobileMenuOpen(false)} style={{ color: "#e91e63", textDecoration: "none", fontFamily: "'Playfair Display',serif", fontSize: 15, fontWeight: 600, padding: "8px 16px", borderRadius: "20px" }}>Dashboard</Link>}
+            {isAdmin && <Link to="/admin" onClick={() => setMobileMenuOpen(false)} style={{ color: "#e91e63", textDecoration: "none", fontFamily: "'Playfair Display',serif", fontSize: 15, fontWeight: 600, padding: "8px 16px", borderRadius: "20px" }}>Admin</Link>}
+
+            {dbUser ? (
+              <>
+                <span style={{ color: "#5d4037", fontSize: 13, fontWeight: 500, padding: "8px 16px" }}>{dbUser.full_name || dbUser.email}</span>
+                <button onClick={logout} style={{ background: "#e91e63", border: "none", color: "#fff", cursor: "pointer", padding: "8px 16px", borderRadius: 20, fontSize: 13, fontWeight: 600, alignSelf: "flex-start" }}>Keluar</button>
+              </>
+            ) : (
+              <Link to="/login" onClick={() => setMobileMenuOpen(false)} style={{ background: "linear-gradient(135deg, #e91e63, #ffb74d)", color: "#fff", padding: "8px 20px", borderRadius: 25, fontSize: 14, textDecoration: "none", fontFamily: "'Playfair Display',serif", fontWeight: 600, alignSelf: "flex-start", boxShadow: "0 4px 15px rgba(233, 30, 99, 0.3)" }}>Log Masuk</Link>
+            )}
+          </div>
+        )}
       </div>
     </nav>
   );

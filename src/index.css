@@ -113,3 +113,202 @@ input:focus, textarea:focus, select:focus {
   border-color: var(--primary-color);
   box-shadow: 0 0 0 3px rgba(233, 30, 99, 0.1);
 }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+  }
+
+  /* Container adjustments */
+  .container, .wrap {
+    padding: 1rem !important;
+    margin: 0 0.5rem !important;
+  }
+
+  /* Navbar responsive */
+  nav .nav-content {
+    padding: 0 1rem !important;
+    height: 60px !important;
+  }
+
+  nav .nav-brand {
+    font-size: 16px !important;
+  }
+
+  nav .nav-links {
+    gap: 0.5rem !important;
+  }
+
+  nav .nav-links a {
+    padding: 6px 12px !important;
+    font-size: 13px !important;
+  }
+
+  /* Grid layouts */
+  .grid, .product-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+    gap: 1rem !important;
+  }
+
+  .checkout-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0 12px !important;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
+    gap: 1rem !important;
+  }
+
+  /* Cards */
+  .card {
+    margin: 0.5rem !important;
+    padding: 1rem !important;
+  }
+
+  /* Buttons */
+  button, .btn {
+    padding: 10px 16px !important;
+    font-size: 14px !important;
+  }
+
+  /* Forms */
+  input, textarea, select {
+    padding: 10px 12px !important;
+    font-size: 14px !important;
+  }
+
+  /* Tables and lists */
+  table {
+    font-size: 12px !important;
+  }
+
+  /* Modal adjustments */
+  .modal {
+    margin: 1rem !important;
+    max-width: calc(100vw - 2rem) !important;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 13px;
+  }
+
+  /* Extra small screens */
+  .container, .wrap {
+    padding: 0.5rem !important;
+    margin: 0 0.25rem !important;
+  }
+
+  /* Navbar for very small screens */
+  nav .nav-content {
+    padding: 0 0.5rem !important;
+    height: 50px !important;
+  }
+
+  nav .nav-brand {
+    font-size: 14px !important;
+  }
+
+  nav .nav-brand span {
+    font-size: 24px !important;
+  }
+
+  /* Grid for mobile */
+  .grid, .product-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0.75rem !important;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0.75rem !important;
+  }
+
+  /* Cards for mobile */
+  .card {
+    margin: 0.25rem !important;
+    padding: 0.75rem !important;
+    border-radius: 12px !important;
+  }
+
+  /* Buttons for mobile */
+  button, .btn {
+    padding: 8px 12px !important;
+    font-size: 13px !important;
+    border-radius: 20px !important;
+  }
+
+  /* Typography adjustments */
+  h1 { font-size: 2rem !important; }
+  h2 { font-size: 1.5rem !important; }
+  h3 { font-size: 1.25rem !important; }
+
+  /* Form elements */
+  input, textarea, select {
+    padding: 8px 10px !important;
+    font-size: 13px !important;
+    border-radius: 6px !important;
+  }
+
+  /* Hide some elements on very small screens */
+  .hide-mobile {
+    display: none !important;
+  }
+}
+
+/* Tablet adjustments */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .container, .wrap {
+    max-width: 900px !important;
+    padding: 2rem 1rem !important;
+  }
+
+  .grid, .product-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)) !important;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)) !important;
+  }
+
+  .checkout-grid {
+    grid-template-columns: 1fr 320px !important;
+    gap: 2rem !important;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 0 12px !important;
+  }
+}
+
+/* Large desktop */
+@media (min-width: 1201px) {
+  .container, .wrap {
+    max-width: 1400px !important;
+  }
+
+  .checkout-grid {
+    grid-template-columns: 1fr 350px !important;
+    gap: 2rem !important;
+  }
+}
+
+/* Mobile menu button */
+@media (max-width: 768px) {
+  .mobile-menu-btn {
+    display: block !important;
+  }
+
+  .nav-links {
+    display: none !important;
+  }
+}

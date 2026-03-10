@@ -8,14 +8,14 @@ import { affiliatesApi, promoApi } from "../lib/api";
 import { useCart } from "../context/CartContext";
 
 const S = {
-  wrap: { maxWidth: 1200, margin: "0 auto", padding: "3rem 1.5rem" },
-  grid: { display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(300px,1fr))", gap: 28 },
+  wrap: { maxWidth: 1200, margin: "0 auto", padding: "clamp(1rem, 5vw, 3rem) clamp(0.5rem, 3vw, 1.5rem)" },
+  grid: { display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(clamp(250px, 25vw, 300px),1fr))", gap: "clamp(16px, 4vw, 28px)" },
   card: { background: "rgba(255,255,255,0.95)", border: "2px solid #fce4ec", borderRadius: 20, overflow: "hidden", boxShadow: "0 8px 25px rgba(233, 30, 99, 0.1)", transition: "all 0.3s ease" },
-  cardImg: { background: "linear-gradient(135deg, rgba(233, 30, 99, 0.1), rgba(255, 183, 77, 0.1))", height: 180, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 80 },
-  cardBody: { padding: "1.5rem" },
-  tag: { background: "rgba(233, 30, 99, 0.15)", color: "#e91e63", fontSize: 11, padding: "4px 12px", borderRadius: 15, fontWeight: 600 },
-  btn: (disabled) => ({ width: "100%", background: disabled ? "rgba(100,100,100,.2)" : "linear-gradient(135deg, #e91e63, #ffb74d)", border: "none", color: disabled ? "#666" : "#fff", padding: 14, borderRadius: 25, cursor: disabled ? "not-allowed" : "pointer", fontFamily: "'Playfair Display',serif", fontSize: 15, fontWeight: 600, marginTop: 12, boxShadow: disabled ? "none" : "0 4px 15px rgba(233, 30, 99, 0.3)", transition: "all 0.3s ease" }),
-  filterBtn: (active) => ({ background: active ? "linear-gradient(135deg, #e91e63, #ffb74d)" : "rgba(255,255,255,0.9)", border: "2px solid #fce4ec", color: active ? "#fff" : "#e91e63", padding: "8px 20px", borderRadius: 25, cursor: "pointer", fontSize: 14, fontWeight: 600, transition: "all 0.3s ease", boxShadow: active ? "0 4px 15px rgba(233, 30, 99, 0.3)" : "0 2px 8px rgba(233, 30, 99, 0.1)" }),
+  cardImg: { background: "linear-gradient(135deg, rgba(233, 30, 99, 0.1), rgba(255, 183, 77, 0.1))", height: "clamp(140px, 20vw, 180px)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "clamp(50px, 12vw, 80px)" },
+  cardBody: { padding: "clamp(0.8rem, 3vw, 1.5rem)" },
+  tag: { background: "rgba(233, 30, 99, 0.15)", color: "#e91e63", fontSize: "clamp(9px, 2.5vw, 11px)", padding: "clamp(2px, 1vw, 4px) clamp(6px, 2vw, 12px)", borderRadius: 15, fontWeight: 600 },
+  btn: (disabled) => ({ width: "100%", background: disabled ? "rgba(100,100,100,.2)" : "linear-gradient(135deg, #e91e63, #ffb74d)", border: "none", color: disabled ? "#666" : "#fff", padding: "clamp(10px, 3vw, 14px)", borderRadius: 25, cursor: disabled ? "not-allowed" : "pointer", fontFamily: "'Playfair Display',serif", fontSize: "clamp(12px, 3vw, 15px)", fontWeight: 600, marginTop: 12, boxShadow: disabled ? "none" : "0 4px 15px rgba(233, 30, 99, 0.3)", transition: "all 0.3s ease" }),
+  filterBtn: (active) => ({ background: active ? "linear-gradient(135deg, #e91e63, #ffb74d)" : "rgba(255,255,255,0.9)", border: "2px solid #fce4ec", color: active ? "#fff" : "#e91e63", padding: "clamp(6px, 2vw, 8px) clamp(12px, 3vw, 20px)", borderRadius: 25, cursor: "pointer", fontSize: "clamp(12px, 2.5vw, 14px)", fontWeight: 600, transition: "all 0.3s ease", boxShadow: active ? "0 4px 15px rgba(233, 30, 99, 0.3)" : "0 2px 8px rgba(233, 30, 99, 0.1)" }),
 };
 
 function formatMYR(n) { return `RM ${Number(n).toFixed(2)}`; }
@@ -46,7 +46,6 @@ export default function ShopPage() {
   }, [refCode]);
 
   useEffect(() => {
-    setLoading(true);
     const params = {};
     if (activeCategory !== "Semua") params.category = activeCategory;
     if (search) params.search = search;
@@ -84,13 +83,13 @@ export default function ShopPage() {
       )}
 
       {/* Header + Search */}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24, flexWrap: "wrap", gap: 16 }}>
-        <h2 style={{ fontFamily: "'Playfair Display',serif", color: "#e91e63", fontSize: 32, margin: 0, fontWeight: 700 }}>Koleksi Biskut Raya</h2>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "clamp(16px, 4vw, 24px)", flexWrap: "wrap", gap: "clamp(12px, 3vw, 16px)" }}>
+        <h2 style={{ fontFamily: "'Playfair Display',serif", color: "#e91e63", fontSize: "clamp(24px, 6vw, 32px)", margin: 0, fontWeight: 700 }}>Koleksi Biskut Raya</h2>
         <input
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Cari produk..."
-          style={{ background: "rgba(255,255,255,0.9)", border: "2px solid #fce4ec", color: "#2c1810", padding: "10px 16px", borderRadius: 25, fontSize: 15, outline: "none", width: 250, boxShadow: "0 2px 8px rgba(233, 30, 99, 0.1)", transition: "all 0.3s ease" }}
+          style={{ background: "rgba(255,255,255,0.9)", border: "2px solid #fce4ec", color: "#2c1810", padding: "clamp(8px, 2vw, 10px) clamp(12px, 3vw, 16px)", borderRadius: 25, fontSize: "clamp(14px, 3vw, 15px)", outline: "none", width: "clamp(200px, 30vw, 250px)", boxShadow: "0 2px 8px rgba(233, 30, 99, 0.1)", transition: "all 0.3s ease" }}
         />
       </div>
 
@@ -102,35 +101,33 @@ export default function ShopPage() {
       </div>
 
       {/* Promo Code */}
-      <div style={{ background: "rgba(255,255,255,0.9)", border: "2px solid #fce4ec", borderRadius: 16, padding: "1.2rem 1.8rem", marginBottom: 28, display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap", boxShadow: "0 4px 15px rgba(233, 30, 99, 0.1)" }}>
-        <span style={{ color: "#e91e63", fontSize: 15, fontWeight: 600 }}>🏷️ Kod Promo Affiliate:</span>
+      <div style={{ background: "rgba(255,255,255,0.9)", border: "2px solid #fce4ec", borderRadius: 16, padding: "clamp(0.8rem, 3vw, 1.2rem) clamp(1rem, 4vw, 1.8rem)", marginBottom: "clamp(20px, 5vw, 28px)", display: "flex", alignItems: "center", gap: "clamp(12px, 3vw, 16px)", flexWrap: "wrap", boxShadow: "0 4px 15px rgba(233, 30, 99, 0.1)" }}>
+        <span style={{ color: "#e91e63", fontSize: "clamp(13px, 3vw, 15px)", fontWeight: 600 }}>🏷️ Kod Promo Affiliate:</span>
         <input
           value={promoCode}
           onChange={(e) => setPromoCode(e.target.value)}
           placeholder="Contoh: ADAM10"
-          style={{ background: "rgba(255,255,255,0.9)", border: "2px solid #fce4ec", color: "#2c1810", padding: "8px 14px", borderRadius: 20, fontSize: 14, outline: "none", minWidth: 150 }}
+          style={{ background: "rgba(255,255,255,0.9)", border: "2px solid #fce4ec", color: "#2c1810", padding: "clamp(6px, 2vw, 8px) clamp(10px, 2.5vw, 14px)", borderRadius: 20, fontSize: "clamp(12px, 2.5vw, 14px)", outline: "none", minWidth: "clamp(120px, 20vw, 150px)" }}
         />
-        <button onClick={handlePromo} style={{ background: "linear-gradient(135deg, #e91e63, #ffb74d)", border: "none", color: "#fff", padding: "8px 18px", borderRadius: 20, cursor: "pointer", fontSize: 14, fontWeight: 600, boxShadow: "0 4px 15px rgba(233, 30, 99, 0.3)" }}>Guna</button>
-        {promoResult && <span style={{ color: "#81c784", fontSize: 14, fontWeight: 600 }}>✅ {promoResult.message}</span>}
-        {promoError && <span style={{ color: "#e91e63", fontSize: 14, fontWeight: 600 }}>❌ {promoError}</span>}
+        <button onClick={handlePromo} style={{ background: "linear-gradient(135deg, #e91e63, #ffb74d)", border: "none", color: "#fff", padding: "clamp(6px, 2vw, 8px) clamp(12px, 3vw, 18px)", borderRadius: 20, cursor: "pointer", fontSize: "clamp(12px, 2.5vw, 14px)", fontWeight: 600, boxShadow: "0 4px 15px rgba(233, 30, 99, 0.3)" }}>Guna</button>
+        {promoResult && <span style={{ color: "#81c784", fontSize: "clamp(12px, 2.5vw, 14px)", fontWeight: 600 }}>✅ {promoResult.message}</span>}
+        {promoError && <span style={{ color: "#e91e63", fontSize: "clamp(12px, 2.5vw, 14px)", fontWeight: 600 }}>❌ {promoError}</span>}
       </div>
 
       {/* Product Grid */}
       {loading ? (
-        <div style={{ textAlign: "center", padding: "4rem", background: "rgba(255,255,255,0.9)", borderRadius: "20px", boxShadow: "0 8px 30px rgba(233, 30, 99, 0.1)" }}>
-          <div style={{ fontSize: 60, marginBottom: 16 }}>🧁</div>
-          <div style={{ color: "#5d4037", fontSize: 18, fontWeight: 600 }}>Memuatkan produk...</div>
+        <div style={{ textAlign: "center", padding: "clamp(2rem, 8vw, 4rem)", background: "rgba(255,255,255,0.9)", borderRadius: "20px", boxShadow: "0 8px 30px rgba(233, 30, 99, 0.1)" }}>
+          <div style={{ fontSize: "clamp(40px, 12vw, 60px)", marginBottom: "clamp(12px, 3vw, 16px)" }}>🧁</div>
+          <div style={{ color: "#5d4037", fontSize: "clamp(16px, 4vw, 18px)", fontWeight: 600 }}>Memuatkan produk...</div>
         </div>
       ) : products.length === 0 ? (
-        <div style={{ textAlign: "center", padding: "4rem", background: "rgba(255,255,255,0.9)", borderRadius: "20px", boxShadow: "0 8px 30px rgba(233, 30, 99, 0.1)", color: "#5d4037" }}>
-          <div style={{ fontSize: 48, marginBottom: 16 }}>🍪</div>
-          <div style={{ fontSize: 18, fontWeight: 600 }}>Tiada produk ditemui.</div>
+        <div style={{ textAlign: "center", padding: "clamp(2rem, 8vw, 4rem)", background: "rgba(255,255,255,0.9)", borderRadius: "20px", boxShadow: "0 8px 30px rgba(233, 30, 99, 0.1)", color: "#5d4037" }}>
+          <div style={{ fontSize: "clamp(32px, 10vw, 48px)", marginBottom: "clamp(12px, 3vw, 16px)" }}>🍪</div>
+          <div style={{ fontSize: "clamp(16px, 4vw, 18px)", fontWeight: 600 }}>Tiada produk ditemui.</div>
         </div>
       ) : (
         <div style={S.grid}>
           {products.map((p) => {
-            const inCart = false;
-            const isBulkThreshold = false; // managed in cart context
             const discountPct = appliedPromo?.discount_pct || 0;
             const displayPrice = Number(p.price) * (1 - discountPct / 100);
 
@@ -144,24 +141,24 @@ export default function ShopPage() {
                 <div style={S.cardBody}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
                     <div>
-                      <h3 style={{ fontFamily: "'Playfair Display',serif", color: "#e91e63", fontSize: 16, margin: "0 0 6px", fontWeight: 600 }}>{p.name}</h3>
+                      <h3 style={{ fontFamily: "'Playfair Display',serif", color: "#e91e63", fontSize: "clamp(14px, 3.5vw, 16px)", margin: "0 0 6px", fontWeight: 600 }}>{p.name}</h3>
                       <span style={S.tag}>{p.category}</span>
                     </div>
                     <div style={{ textAlign: "right" }}>
-                      <div style={{ color: "#ffb74d", fontWeight: 700, fontSize: 18 }}>{formatMYR(displayPrice)}</div>
-                      {discountPct > 0 && <div style={{ color: "#8d6e63", fontSize: 13, textDecoration: "line-through" }}>{formatMYR(p.price)}</div>}
+                      <div style={{ color: "#ffb74d", fontWeight: 700, fontSize: "clamp(16px, 4vw, 18px)" }}>{formatMYR(displayPrice)}</div>
+                      {discountPct > 0 && <div style={{ color: "#8d6e63", fontSize: "clamp(11px, 2.5vw, 13px)", textDecoration: "line-through" }}>{formatMYR(p.price)}</div>}
                     </div>
                   </div>
-                  <p style={{ color: "#5d4037", fontSize: 14, margin: "12px 0", lineHeight: 1.5 }}>{p.description}</p>
+                  <p style={{ color: "#5d4037", fontSize: "clamp(12px, 2.8vw, 14px)", margin: "clamp(8px, 2vw, 12px) 0", lineHeight: 1.5 }}>{p.description}</p>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <span style={{ color: p.stock > 10 ? "#81c784" : p.stock > 0 ? "#ffb74d" : "#e91e63", fontSize: 13, fontWeight: 600 }}>
+                    <span style={{ color: p.stock > 10 ? "#81c784" : p.stock > 0 ? "#ffb74d" : "#e91e63", fontSize: "clamp(11px, 2.5vw, 13px)", fontWeight: 600 }}>
                       ● Stok: {p.stock} balang
                     </span>
                     {p.stock > 0 && p.stock <= 10 && (
-                      <span style={{ background: "rgba(255, 183, 77, 0.15)", color: "#ffb74d", fontSize: 11, padding: "3px 10px", borderRadius: 12, fontWeight: 600 }}>⚡ Hampir habis!</span>
+                      <span style={{ background: "rgba(255, 183, 77, 0.15)", color: "#ffb74d", fontSize: "clamp(9px, 2vw, 11px)", padding: "clamp(2px, 0.8vw, 3px) clamp(6px, 2vw, 10px)", borderRadius: 12, fontWeight: 600 }}>⚡ Hampir habis!</span>
                     )}
                   </div>
-                  <div style={{ color: "#8d6e63", fontSize: 12, marginTop: 8, fontWeight: 500 }}>
+                  <div style={{ color: "#8d6e63", fontSize: "clamp(10px, 2.2vw, 12px)", marginTop: "clamp(6px, 1.5vw, 8px)", fontWeight: 500 }}>
                     🎁 Beli {p.min_bulk_qty}+ balang: diskaun borong {p.bulk_discount_pct}%
                   </div>
                   <button
