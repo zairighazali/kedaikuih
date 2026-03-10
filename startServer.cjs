@@ -10,6 +10,7 @@ const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
+const path = require("path");
 
 const app = express();
 
@@ -65,8 +66,19 @@ app.use("/api/affiliates", affiliateRoutes);
 // Promo validation & settings also in auth.js but mounted at /api
 app.use("/api",            authRoutes);
 
+// ─── Serve static files from dist ─────────────────────────────
+app.use(express.static(path.join(__dirname, 'dist')));
+
 // ─── Health check ─────────────────────────────────────────────
 app.get("/health", (req, res) => res.json({ status: "ok", timestamp: new Date() }));
+
+// ─── Catch-all handler for SPA ────────────────────────────────
+app.use((req, res, next) => {
+  if (req.path.startsWith('/api') || req.path === '/health') {
+    return next();
+  }
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
 
 // ─── 404 handler ──────────────────────────────────────────────
 app.use((req, res) => res.status(404).json({ error: "Route not found" }));
