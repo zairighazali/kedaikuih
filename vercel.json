@@ -1,9 +1,16 @@
 {
-    "routes": [
-        {
-            "src": "/[^.]+",
-            "dest": "/",
-            "status": 200
-        }
-    ]
+  "version": 2,
+  "builds": [
+    {
+      "src": "startServer.cjs",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/startServer.cjs"
+    }
+  ],
+  "buildCommand": "npm run build"
 }
