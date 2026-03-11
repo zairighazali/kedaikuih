@@ -7,6 +7,18 @@ import { CartProvider, useCart } from "./context/CartContext";
 import { useState, useEffect } from "react";
 import { settingsApi, affiliatesApi, paymentApi } from "./lib/api";
 
+// shared button gradient style
+const btnGradient = {
+  background: "linear-gradient(135deg, #e91e63, #ffb74d)",
+  border: "none",
+  color: "#fff",
+  cursor: "pointer",
+  fontFamily: "'Playfair Display',serif",
+  fontWeight: 600,
+  boxShadow: "0 4px 15px rgba(233, 30, 99, 0.3)",
+};
+
+
 // Pages
 import ShopPage from "./pages/ShopPage";
 import CheckoutPage from "./pages/CheckoutPage";
@@ -36,7 +48,7 @@ function CountdownBanner({ deadline }) {
   return (
     <div style={{ background: "linear-gradient(135deg,#e91e63,#ffb74d)", padding: "12px 0", textAlign: "center", boxShadow: "0 2px 10px rgba(233, 30, 99, 0.1)" }}>
       <div style={{ color: "#fff", fontFamily: "'Playfair Display',serif", fontSize: "clamp(12px, 3vw, 14px)", letterSpacing: 1, marginBottom: 6, fontWeight: 600, padding: "0 1rem" }}>
-        ⏳ Tarikh Akhir Pesanan — Kuih tiba sebelum Hari Raya!
+         Tarikh Akhir Pesanan — Kuih tiba sebelum Hari Raya!
       </div>
       <div style={{ display: "flex", justifyContent: "center", gap: "clamp(8px, 4vw, 16px)", flexWrap: "wrap", padding: "0 1rem" }}>
         {[["d", "Hari"], ["h", "Jam"], ["m", "Minit"], ["s", "Saat"]].map(([k, label]) => (
@@ -56,17 +68,19 @@ function CountdownBanner({ deadline }) {
 function Navbar() {
   const { dbUser, isAdmin, isAffiliate, logout } = useAuth();
   const { itemCount } = useCart();
+  const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Truncate user name for mobile display
   const displayName = dbUser?.full_name || dbUser?.email || "";
   const truncatedName = displayName.length > 20 ? displayName.substring(0, 17) + "..." : displayName;
 
+  // could be a logo image or emoji on line 83
   return (
     <nav style={{ background: "rgba(255,255,255,0.95)", backdropFilter: "blur(10px)", borderBottom: "2px solid #fce4ec", position: "sticky", top: 0, zIndex: 100, boxShadow: "0 2px 20px rgba(233, 30, 99, 0.1)" }}>
       <div className="nav-content" style={{ maxWidth: 1200, margin: "0 auto", padding: "0 1.5rem", display: "flex", alignItems: "center", justifyContent: "space-between", height: 70, position: "relative" }}>
         <Link to="/" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: 12 }}>
-          <span style={{ fontSize: 32 }}>🧁</span>
+          <span style={{ fontSize: 32 }}></span> 
           <div>
             <div className="nav-brand" style={{ fontFamily: "'Playfair Display',serif", color: "#e91e63", fontSize: 20, fontWeight: 700, lineHeight: 1 }}>Biskut Raya</div>
             <div style={{ color: "#ffb74d", fontSize: 10, letterSpacing: 2, fontWeight: 600 }}>SWEET DELIGHTS</div>
@@ -90,20 +104,20 @@ function Navbar() {
           {dbUser ? (
             <>
               <span className="user-name-display" style={{ color: "#5d4037", fontSize: "clamp(11px, 2vw, 13px)", fontWeight: 500, maxWidth: "clamp(80px, 15vw, 150px)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }} title={displayName}>{truncatedName}</span>
-              <button onClick={logout} style={{ background: "#e91e63", border: "none", color: "#fff", cursor: "pointer", padding: "clamp(5px, 1.2vw, 6px) clamp(10px, 2vw, 16px)", borderRadius: 20, fontSize: "clamp(11px, 2vw, 13px)", fontWeight: 600 }}>Keluar</button>
+              <button onClick={logout} style={{ ...btnGradient, padding: "clamp(5px, 1.2vw, 6px) clamp(10px, 2vw, 16px)", borderRadius: 20, fontSize: "clamp(11px, 2vw, 13px)" }}>Keluar</button>
             </>
           ) : (
-            <Link to="/login" style={{ background: "linear-gradient(135deg, #e91e63, #ffb74d)", color: "#fff", padding: "clamp(6px, 1.5vw, 8px) clamp(12px, 2.5vw, 20px)", borderRadius: 25, fontSize: "clamp(12px, 2.5vw, 14px)", textDecoration: "none", fontFamily: "'Playfair Display',serif", fontWeight: 600, boxShadow: "0 4px 15px rgba(233, 30, 99, 0.3)" }}>Log Masuk</Link>
+            <Link to="/login" style={{ ...btnGradient, padding: "clamp(6px, 1.5vw, 8px) clamp(12px, 2.5vw, 20px)", borderRadius: 25, fontSize: "clamp(12px, 2.5vw, 14px)", textDecoration: "none" }}>Log Masuk</Link>
           )}
 
-          <Link to="/cart" style={{ position: "relative", fontSize: "clamp(22px, 4vw, 26px)", textDecoration: "none" }}>
-            🛒
+          <button onClick={() => navigate("/cart")} style={{ ...btnGradient, position: "relative", fontSize: "clamp(14px, 3vw, 16px)", padding: "8px 12px", borderRadius: 20 }}>
+            Troli
             {itemCount > 0 && (
               <span style={{ position: "absolute", top: -8, right: -10, background: "#e91e63", color: "#fff", borderRadius: "50%", width: "clamp(18px, 3vw, 22px)", height: "clamp(18px, 3vw, 22px)", fontSize: "clamp(9px, 2vw, 11px)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, boxShadow: "0 2px 8px rgba(233, 30, 99, 0.3)" }}>
                 {itemCount}
               </span>
             )}
-          </Link>
+          </button>
         </div>
 
         {/* Mobile menu */}
@@ -113,15 +127,15 @@ function Navbar() {
             {isAffiliate && <Link to="/affiliate" onClick={() => setMobileMenuOpen(false)} style={{ color: "#e91e63", textDecoration: "none", fontFamily: "'Playfair Display',serif", fontSize: "clamp(15px, 3vw, 16px)", fontWeight: 600, padding: "clamp(8px, 2vw, 10px) clamp(12px, 3vw, 16px)", borderRadius: "20px", transition: "all 0.3s ease" }} onMouseEnter={(e) => e.target.style.background = "#fce4ec"} onMouseLeave={(e) => e.target.style.background = "transparent"}>Dashboard</Link>}
             {isAdmin && <Link to="/admin" onClick={() => setMobileMenuOpen(false)} style={{ color: "#e91e63", textDecoration: "none", fontFamily: "'Playfair Display',serif", fontSize: "clamp(15px, 3vw, 16px)", fontWeight: 600, padding: "clamp(8px, 2vw, 10px) clamp(12px, 3vw, 16px)", borderRadius: "20px", transition: "all 0.3s ease" }} onMouseEnter={(e) => e.target.style.background = "#fce4ec"} onMouseLeave={(e) => e.target.style.background = "transparent"}>Admin</Link>}
 
-            {/* Cart link in mobile menu */}
-            <Link to="/cart" onClick={() => setMobileMenuOpen(false)} style={{ color: "#e91e63", textDecoration: "none", fontFamily: "'Playfair Display',serif", fontSize: "clamp(15px, 3vw, 16px)", fontWeight: 600, padding: "clamp(8px, 2vw, 10px) clamp(12px, 3vw, 16px)", borderRadius: "20px", display: "flex", alignItems: "center", gap: "clamp(8px, 2vw, 12px)", transition: "all 0.3s ease" }} onMouseEnter={(e) => e.target.style.background = "#fce4ec"} onMouseLeave={(e) => e.target.style.background = "transparent"}>
-              <span>🛒 Troli</span>
+            {/* Cart button in mobile menu */}
+            <button onClick={() => { setMobileMenuOpen(false); navigate("/cart"); }} style={{ ...btnGradient, padding: "clamp(8px, 2vw, 10px) clamp(12px, 3vw, 16px)", borderRadius: 20, display: "flex", alignItems: "center", gap: "clamp(8px, 2vw, 12px)" }}>
+              Troli
               {itemCount > 0 && (
                 <span style={{ background: "#e91e63", color: "#fff", borderRadius: "50%", width: "clamp(18px, 3vw, 20px)", height: "clamp(18px, 3vw, 20px)", fontSize: "clamp(10px, 2vw, 11px)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700 }}>
                   {itemCount}
                 </span>
               )}
-            </Link>
+            </button>
 
             {/* Divider */}
             <div style={{ height: 1, background: "#fce4ec", margin: "clamp(0.5rem, 1.5vw, 0.75rem) 0" }}></div>
@@ -131,10 +145,10 @@ function Navbar() {
                 <div style={{ color: "#5d4037", fontSize: "clamp(13px, 2.5vw, 14px)", fontWeight: 500, padding: "clamp(6px, 1.5vw, 8px) clamp(12px, 3vw, 16px)", background: "rgba(252, 228, 236, 0.5)", borderRadius: "12px", textAlign: "center" }}>
                   {truncatedName}
                 </div>
-                <button onClick={() => { logout(); setMobileMenuOpen(false); }} style={{ background: "#e91e63", border: "none", color: "#fff", cursor: "pointer", padding: "clamp(8px, 2vw, 10px) clamp(16px, 4vw, 20px)", borderRadius: 20, fontSize: "clamp(13px, 2.5vw, 14px)", fontWeight: 600, alignSelf: "center", marginTop: "clamp(0.25rem, 0.8vw, 0.5rem)" }}>Keluar</button>
+                <button onClick={() => { logout(); setMobileMenuOpen(false); }} style={{ ...btnGradient, padding: "clamp(8px, 2vw, 10px) clamp(16px, 4vw, 20px)", borderRadius: 20, fontSize: "clamp(13px, 2.5vw, 14px)", alignSelf: "center", marginTop: "clamp(0.25rem, 0.8vw, 0.5rem)" }}>Keluar</button>
               </>
             ) : (
-              <Link to="/login" onClick={() => setMobileMenuOpen(false)} style={{ background: "linear-gradient(135deg, #e91e63, #ffb74d)", color: "#fff", padding: "clamp(8px, 2vw, 10px) clamp(16px, 4vw, 20px)", borderRadius: 25, fontSize: "clamp(13px, 2.5vw, 14px)", textDecoration: "none", fontFamily: "'Playfair Display',serif", fontWeight: 600, alignSelf: "center", boxShadow: "0 4px 15px rgba(233, 30, 99, 0.3)" }}>Log Masuk</Link>
+              <Link to="/login" onClick={() => setMobileMenuOpen(false)} style={{ ...btnGradient, padding: "clamp(8px, 2vw, 10px) clamp(16px, 4vw, 20px)", borderRadius: 25, fontSize: "clamp(13px, 2.5vw, 14px)", textDecoration: "none", alignSelf: "center" }}>Log Masuk</Link>
             )}
           </div>
         )}
@@ -166,7 +180,7 @@ function CartPage() {
         <div style={{ textAlign: "center", padding: "4rem", background: "rgba(255,255,255,0.9)", borderRadius: "20px", boxShadow: "0 8px 30px rgba(233, 30, 99, 0.1)" }}>
           <div style={{ fontSize: 70, marginBottom: 16 }}>🛒</div>
           <div style={{ fontSize: 20, fontFamily: "'Playfair Display',serif", color: "#e91e63", marginBottom: 12, fontWeight: 600 }}>Troli anda kosong</div>
-          <button onClick={() => navigate("/shop")} style={{ background: "linear-gradient(135deg, #e91e63, #ffb74d)", border: "none", color: "#fff", padding: "12px 28px", borderRadius: 25, cursor: "pointer", fontFamily: "'Playfair Display',serif", fontSize: 16, fontWeight: 600, boxShadow: "0 4px 15px rgba(233, 30, 99, 0.3)" }}>Mulai Beli-Belah</button>
+          <button onClick={() => navigate("/shop")} style={{ ...btnGradient, padding: "12px 28px", borderRadius: 25, fontSize: 16 }}>Mulai Beli-Belah</button>
         </div>
       ) : (
         <div style={{ display: "grid", gridTemplateColumns: "1fr 320px", gap: 24 }}>
@@ -230,7 +244,7 @@ function HomePage() {
       <div style={{ position: "absolute", bottom: "10%", left: "5%", width: 200, height: 200, background: "radial-gradient(circle, rgba(255, 183, 77, 0.15) 0%, transparent 70%)", borderRadius: "50%", pointerEvents: "none" }} />
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "4rem 2rem", width: "100%", position: "relative", zIndex: 2 }}>
         <div style={{ maxWidth: 600 }}>
-          <div style={{ color: "#e91e63", letterSpacing: 4, fontSize: 12, fontFamily: "'Playfair Display',serif", marginBottom: 20, fontWeight: 600, textTransform: "uppercase" }}>Koleksi Premium Raya 2025</div>
+          <div style={{ color: "#e91e63", letterSpacing: 4, fontSize: 12, fontFamily: "'Playfair Display',serif", marginBottom: 20, fontWeight: 600, textTransform: "uppercase" }}>Koleksi Premium Raya 2026</div>
           <h1 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(2.8rem,6vw,5rem)", color: "#2c1810", lineHeight: 1.1, margin: "0 0 1.8rem", fontWeight: 700 }}>
             Manis Raya,<br /><em style={{ color: "#e91e63", fontStyle: "italic" }}>Sampai ke Pintu</em>
           </h1>
@@ -271,7 +285,7 @@ function AffiliateRegisterPage() {
   if (!isCustomer) return (
     <div style={{ textAlign: "center", padding: "4rem" }}>
       <p style={{ color: "#7a5a3a" }}>Sila log masuk dahulu.</p>
-      <button onClick={() => navigate("/login")} style={{ background: "#8B4513", border: "none", color: "#fff", padding: "10px 20px", borderRadius: 8, cursor: "pointer", fontFamily: "'Playfair Display',serif" }}>Log Masuk</button>
+      <button onClick={() => navigate("/login")} style={{ ...btnGradient, padding: "10px 20px", borderRadius: 8 }}>Log Masuk</button>
     </div>
   );
 
@@ -280,7 +294,7 @@ function AffiliateRegisterPage() {
       <div style={{ fontSize: 60 }}>🎉</div>
       <h2 style={{ fontFamily: "'Playfair Display',serif", color: "#fde68a" }}>Permohonan Dihantar!</h2>
       <p style={{ color: "#7a5a3a" }}>Akaun anda sedang disemak. Anda akan dimaklumkan dalam masa 24 jam.</p>
-      <button onClick={() => navigate("/")} style={{ marginTop: 16, background: "#8B4513", border: "none", color: "#fff", padding: "10px 24px", borderRadius: 8, cursor: "pointer", fontFamily: "'Playfair Display',serif" }}>Kembali</button>
+      <button onClick={() => navigate("/")} style={{ marginTop: 16, ...btnGradient, padding: "10px 24px", borderRadius: 8 }}>Kembali</button>
     </div>
   );
 
@@ -308,7 +322,7 @@ function AffiliateRegisterPage() {
           <label style={{ color: "#cd853f", fontSize: 12, display: "block", marginBottom: 4 }}>Kod Promo Yang Diingini *</label>
           <input value={promoCode} onChange={(e) => setPromoCode(e.target.value.toUpperCase())} placeholder="cth: NAMA10" style={{ width: "100%", background: "rgba(255,255,255,.05)", border: "1px solid rgba(139,69,19,.4)", color: "#fde68a", padding: "9px 12px", borderRadius: 8, fontSize: 14, outline: "none", boxSizing: "border-box" }} />
         </div>
-        <button onClick={handleSubmit} disabled={loading} style={{ width: "100%", background: loading ? "#555" : "linear-gradient(135deg,#8B4513,#cd853f)", border: "none", color: "#fff", padding: "12px", borderRadius: 8, cursor: loading ? "not-allowed" : "pointer", fontFamily: "'Playfair Display',serif", fontSize: 16 }}>
+        <button onClick={handleSubmit} disabled={loading} style={{ width: "100%", background: loading ? "#555" : btnGradient.background, border: "none", color: "#fff", padding: "12px", borderRadius: 8, cursor: loading ? "not-allowed" : "pointer", fontFamily: "'Playfair Display',serif", fontSize: 16 }}>
           {loading ? "Memproses..." : "Hantar Permohonan →"}
         </button>
       </div>
@@ -349,7 +363,7 @@ function PaymentReturnPage() {
           <div style={{ fontSize: 64 }}>✅</div>
           <h2 style={{ fontFamily: "'Playfair Display',serif", color: "#fde68a" }}>Pembayaran Berjaya!</h2>
           <p style={{ color: "#7a5a3a" }}>Pesanan anda sedang diproses. Terima kasih!</p>
-          <button onClick={() => navigate("/")} style={{ marginTop: 16, background: "#8B4513", border: "none", color: "#fff", padding: "10px 24px", borderRadius: 8, cursor: "pointer", fontFamily: "'Playfair Display',serif" }}>Kembali ke Utama</button>
+          <button onClick={() => navigate("/")} style={{ marginTop: 16, ...btnGradient, padding: "10px 24px", borderRadius: 8 }}>Kembali ke Utama</button>
         </>
       )}
       {(status === "pending" || status === "error") && (
@@ -357,7 +371,7 @@ function PaymentReturnPage() {
           <div style={{ fontSize: 64 }}>⚠️</div>
           <h2 style={{ fontFamily: "'Playfair Display',serif", color: "#fde68a" }}>Status Belum Pasti</h2>
           <p style={{ color: "#7a5a3a" }}>Pembayaran anda sedang disahkan. Anda akan dimaklumkan melalui e-mel.</p>
-          <button onClick={() => navigate("/")} style={{ marginTop: 16, background: "#8B4513", border: "none", color: "#fff", padding: "10px 24px", borderRadius: 8, cursor: "pointer", fontFamily: "'Playfair Display',serif" }}>Kembali ke Utama</button>
+          <button onClick={() => navigate("/")} style={{ marginTop: 16, ...btnGradient, padding: "10px 24px", borderRadius: 8 }}>Kembali ke Utama</button>
         </>
       )}
     </div>
@@ -389,8 +403,8 @@ function AppInner() {
         <Route path="/payment/return"     element={<PaymentReturnPage />} />
       </Routes>
       <footer style={{ borderTop: "2px solid #fce4ec", padding: "2rem", textAlign: "center", background: "rgba(255,255,255,0.9)", marginTop: "3rem", boxShadow: "0 -2px 10px rgba(233, 30, 99, 0.1)" }}>
-        <div style={{ fontFamily: "'Playfair Display',serif", color: "#e91e63", marginBottom: 8, fontSize: 16, fontWeight: 600 }}>🌙 Biskut Raya Premium Collection 2025</div>
-        <div style={{ color: "#5d4037", fontSize: 13 }}>Pembayaran FPX melalui ToyyibPay · Penghantaran Seluruh Malaysia · © 2025</div>
+        <div style={{ fontFamily: "'Playfair Display',serif", color: "#e91e63", marginBottom: 8, fontSize: 16, fontWeight: 600 }}>🌙 Biskut Raya Premium Collection 2026</div>
+        <div style={{ color: "#5d4037", fontSize: 13 }}>Pembayaran FPX melalui ToyyibPay · Penghantaran Seluruh Malaysia · © 2026</div>
       </footer>
     </div>
   );

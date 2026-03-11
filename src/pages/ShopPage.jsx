@@ -7,6 +7,17 @@ import { productsApi } from "../lib/api";
 import { affiliatesApi, promoApi } from "../lib/api";
 import { useCart } from "../context/CartContext";
 
+// shared primary button gradient style
+const btnGradient = {
+  background: "linear-gradient(135deg, #e91e63, #ffb74d)",
+  border: "none",
+  color: "#fff",
+  cursor: "pointer",
+  fontFamily: "'Playfair Display',serif",
+  fontWeight: 600,
+  boxShadow: "0 4px 15px rgba(233, 30, 99, 0.3)",
+};
+
 const S = {
   wrap: { maxWidth: 1200, margin: "0 auto", padding: "clamp(1rem, 5vw, 3rem) clamp(0.5rem, 3vw, 1.5rem)" },
   grid: { display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(clamp(250px, 25vw, 300px),1fr))", gap: "clamp(16px, 4vw, 28px)" },
@@ -109,7 +120,7 @@ export default function ShopPage() {
           placeholder="Contoh: ADAM10"
           style={{ background: "rgba(255,255,255,0.9)", border: "2px solid #fce4ec", color: "#2c1810", padding: "clamp(6px, 2vw, 8px) clamp(10px, 2.5vw, 14px)", borderRadius: 20, fontSize: "clamp(12px, 2.5vw, 14px)", outline: "none", minWidth: "clamp(120px, 20vw, 150px)" }}
         />
-        <button onClick={handlePromo} style={{ background: "linear-gradient(135deg, #e91e63, #ffb74d)", border: "none", color: "#fff", padding: "clamp(6px, 2vw, 8px) clamp(12px, 3vw, 18px)", borderRadius: 20, cursor: "pointer", fontSize: "clamp(12px, 2.5vw, 14px)", fontWeight: 600, boxShadow: "0 4px 15px rgba(233, 30, 99, 0.3)" }}>Guna</button>
+        <button onClick={handlePromo} style={{ ...btnGradient, padding: "clamp(6px, 2vw, 8px) clamp(12px, 3vw, 18px)", borderRadius: 20, fontSize: "clamp(12px, 2.5vw, 14px)" }}>Guna</button>
         {promoResult && <span style={{ color: "#81c784", fontSize: "clamp(12px, 2.5vw, 14px)", fontWeight: 600 }}>✅ {promoResult.message}</span>}
         {promoError && <span style={{ color: "#e91e63", fontSize: "clamp(12px, 2.5vw, 14px)", fontWeight: 600 }}>❌ {promoError}</span>}
       </div>
@@ -159,14 +170,14 @@ export default function ShopPage() {
                     )}
                   </div>
                   <div style={{ color: "#8d6e63", fontSize: "clamp(10px, 2.2vw, 12px)", marginTop: "clamp(6px, 1.5vw, 8px)", fontWeight: 500 }}>
-                    🎁 Beli {p.min_bulk_qty}+ balang: diskaun borong {p.bulk_discount_pct}%
+                    Beli {p.min_bulk_qty}+ balang: diskaun borong {p.bulk_discount_pct}%
                   </div>
                   <button
                     onClick={() => addItem(p)}
                     disabled={p.stock === 0}
                     style={S.btn(p.stock === 0)}
                   >
-                    {p.stock === 0 ? "Kehabisan Stok" : "Tambah ke Troli 🛒"}
+                    {p.stock === 0 ? "Kehabisan Stok" : "Tambah ke Troli"}
                   </button>
                 </div>
               </div>

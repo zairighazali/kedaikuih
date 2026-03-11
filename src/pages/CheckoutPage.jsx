@@ -9,6 +9,17 @@ import { useAuth } from "../context/AuthContext";
 import { ordersApi, paymentApi } from "../lib/api";
 import { useSiteSettings } from "../hooks/index.js";
 
+// same gradient used throughout app
+const btnGradient = {
+  background: "linear-gradient(135deg, #e91e63, #ffb74d)",
+  border: "none",
+  color: "#fff",
+  cursor: "pointer",
+  fontFamily: "'Playfair Display',serif",
+  fontWeight: 600,
+  boxShadow: "0 4px 15px rgba(233, 30, 99, 0.3)",
+};
+
 function formatMYR(n) { return `RM ${Number(n).toFixed(2)}`; }
 
 const inputStyle = {
@@ -94,7 +105,7 @@ export default function CheckoutPage() {
       <div style={{ textAlign: "center", padding: "clamp(2rem, 8vw, 4rem)", background: "rgba(255,255,255,0.9)", borderRadius: "20px", boxShadow: "0 8px 30px rgba(233, 30, 99, 0.1)", maxWidth: "500px", margin: "clamp(1rem, 5vw, 2rem) auto" }}>
         <div style={{ fontSize: "clamp(40px, 12vw, 60px)", marginBottom: "clamp(12px, 3vw, 16px)" }}>🔒</div>
         <p style={{ color: "#5d4037", fontSize: "clamp(16px, 4vw, 18px)", marginBottom: "clamp(16px, 4vw, 20px)" }}>Sila log masuk untuk membuat pesanan.</p>
-        <button onClick={() => navigate("/login")} style={{ background: "linear-gradient(135deg, #e91e63, #ffb74d)", border: "none", color: "#fff", padding: "clamp(10px, 2.5vw, 12px) clamp(20px, 5vw, 28px)", borderRadius: 25, cursor: "pointer", fontFamily: "'Playfair Display',serif", fontSize: "clamp(14px, 3vw, 16px)", fontWeight: 600, boxShadow: "0 4px 15px rgba(233, 30, 99, 0.3)" }}>Log Masuk</button>
+        <button onClick={() => navigate("/login")} style={{ ...btnGradient, padding: "clamp(10px, 2.5vw, 12px) clamp(20px, 5vw, 28px)", borderRadius: 25 }}>Log Masuk</button>
       </div>
     );
   }
@@ -104,7 +115,7 @@ export default function CheckoutPage() {
       <div style={{ textAlign: "center", padding: "clamp(2rem, 8vw, 4rem)", background: "rgba(255,255,255,0.9)", borderRadius: "20px", boxShadow: "0 8px 30px rgba(233, 30, 99, 0.1)", maxWidth: "500px", margin: "clamp(1rem, 5vw, 2rem) auto" }}>
         <div style={{ fontSize: "clamp(40px, 12vw, 60px)", marginBottom: "clamp(12px, 3vw, 16px)" }}>🛒</div>
         <p style={{ color: "#5d4037", fontSize: "clamp(16px, 4vw, 18px)", marginBottom: "clamp(16px, 4vw, 20px)" }}>Troli anda kosong.</p>
-        <button onClick={() => navigate("/shop")} style={{ background: "linear-gradient(135deg, #e91e63, #ffb74d)", border: "none", color: "#fff", padding: "clamp(10px, 2.5vw, 12px) clamp(20px, 5vw, 28px)", borderRadius: 25, cursor: "pointer", fontFamily: "'Playfair Display',serif", fontSize: "clamp(14px, 3vw, 16px)", fontWeight: 600, boxShadow: "0 4px 15px rgba(233, 30, 99, 0.3)" }}>Ke Kedai</button>
+        <button onClick={() => navigate("/shop")} style={{ ...btnGradient, padding: "clamp(10px, 2.5vw, 12px) clamp(20px, 5vw, 28px)", borderRadius: 25 }}>Ke Kedai</button>
       </div>
     );
   }
