@@ -2,6 +2,7 @@
 // Main app with React Router, Auth + Cart providers, and Navbar
 
 import { BrowserRouter, Routes, Route, Link, useNavigate, useSearchParams } from "react-router-dom";
+import "./App.css";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import { CartProvider, useCart } from "./context/CartContext";
 import { useState, useEffect } from "react";
@@ -90,7 +91,15 @@ function Navbar() {
         {/* Mobile menu button */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          style={{ display: "none", background: "none", border: "none", fontSize: 24, color: "#e91e63", cursor: "pointer" }}
+          style={{
+            background: "none",
+            border: "none",
+            fontSize: 24,
+            color: "#e91e63",
+            cursor: "pointer",
+            transition: "transform 0.3s ease",
+            transform: mobileMenuOpen ? "rotate(90deg)" : "rotate(0)"
+          }}
           className="mobile-menu-btn"
         >
           {mobileMenuOpen ? "✕" : "☰"}
@@ -120,38 +129,57 @@ function Navbar() {
           </button>
         </div>
 
-        {/* Mobile menu */}
+        {/* Mobile overlay (dismiss panel when clicked) */}
         {mobileMenuOpen && (
-          <div style={{ position: "absolute", top: "100%", left: 0, right: 0, background: "rgba(255,255,255,0.98)", borderBottom: "2px solid #fce4ec", padding: "clamp(1rem, 3vw, 1.5rem)", display: "flex", flexDirection: "column", gap: "clamp(0.5rem, 1.5vw, 0.75rem)", boxShadow: "0 4px 20px rgba(233, 30, 99, 0.1)", maxHeight: "80vh", overflowY: "auto" }}>
-            <Link to="/shop" onClick={() => setMobileMenuOpen(false)} style={{ color: "#e91e63", textDecoration: "none", fontFamily: "'Playfair Display',serif", fontSize: "clamp(15px, 3vw, 16px)", fontWeight: 600, padding: "clamp(8px, 2vw, 10px) clamp(12px, 3vw, 16px)", borderRadius: "20px", transition: "all 0.3s ease" }} onMouseEnter={(e) => e.target.style.background = "#fce4ec"} onMouseLeave={(e) => e.target.style.background = "transparent"}>Kedai</Link>
-            {isAffiliate && <Link to="/affiliate" onClick={() => setMobileMenuOpen(false)} style={{ color: "#e91e63", textDecoration: "none", fontFamily: "'Playfair Display',serif", fontSize: "clamp(15px, 3vw, 16px)", fontWeight: 600, padding: "clamp(8px, 2vw, 10px) clamp(12px, 3vw, 16px)", borderRadius: "20px", transition: "all 0.3s ease" }} onMouseEnter={(e) => e.target.style.background = "#fce4ec"} onMouseLeave={(e) => e.target.style.background = "transparent"}>Dashboard</Link>}
-            {isAdmin && <Link to="/admin" onClick={() => setMobileMenuOpen(false)} style={{ color: "#e91e63", textDecoration: "none", fontFamily: "'Playfair Display',serif", fontSize: "clamp(15px, 3vw, 16px)", fontWeight: 600, padding: "clamp(8px, 2vw, 10px) clamp(12px, 3vw, 16px)", borderRadius: "20px", transition: "all 0.3s ease" }} onMouseEnter={(e) => e.target.style.background = "#fce4ec"} onMouseLeave={(e) => e.target.style.background = "transparent"}>Admin</Link>}
-
-            {/* Cart button in mobile menu */}
-            <button onClick={() => { setMobileMenuOpen(false); navigate("/cart"); }} style={{ ...btnGradient, padding: "clamp(8px, 2vw, 10px) clamp(12px, 3vw, 16px)", borderRadius: 20, display: "flex", alignItems: "center", gap: "clamp(8px, 2vw, 12px)" }}>
-              Troli
-              {itemCount > 0 && (
-                <span style={{ background: "#e91e63", color: "#fff", borderRadius: "50%", width: "clamp(18px, 3vw, 20px)", height: "clamp(18px, 3vw, 20px)", fontSize: "clamp(10px, 2vw, 11px)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700 }}>
-                  {itemCount}
-                </span>
-              )}
-            </button>
-
-            {/* Divider */}
-            <div style={{ height: 1, background: "#fce4ec", margin: "clamp(0.5rem, 1.5vw, 0.75rem) 0" }}></div>
-
-            {dbUser ? (
-              <>
-                <div style={{ color: "#5d4037", fontSize: "clamp(13px, 2.5vw, 14px)", fontWeight: 500, padding: "clamp(6px, 1.5vw, 8px) clamp(12px, 3vw, 16px)", background: "rgba(252, 228, 236, 0.5)", borderRadius: "12px", textAlign: "center" }}>
-                  {truncatedName}
-                </div>
-                <button onClick={() => { logout(); setMobileMenuOpen(false); }} style={{ ...btnGradient, padding: "clamp(8px, 2vw, 10px) clamp(16px, 4vw, 20px)", borderRadius: 20, fontSize: "clamp(13px, 2.5vw, 14px)", alignSelf: "center", marginTop: "clamp(0.25rem, 0.8vw, 0.5rem)" }}>Keluar</button>
-              </>
-            ) : (
-              <Link to="/login" onClick={() => setMobileMenuOpen(false)} style={{ ...btnGradient, padding: "clamp(8px, 2vw, 10px) clamp(16px, 4vw, 20px)", borderRadius: 25, fontSize: "clamp(13px, 2.5vw, 14px)", textDecoration: "none", alignSelf: "center" }}>Log Masuk</Link>
-            )}
-          </div>
+          <div
+            onClick={() => setMobileMenuOpen(false)}
+            style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, background: "rgba(0,0,0,0.3)", zIndex: 90 }}
+          />
         )}
+
+        {/* Drawer panel */}
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "75%",
+            maxWidth: 300,
+            height: "100%",
+            background: "rgba(255,255,255,0.98)",
+            padding: "2rem 1.5rem",
+            boxShadow: "2px 0 8px rgba(0,0,0,0.1)",
+            transform: mobileMenuOpen ? "translateX(0)" : "translateX(-100%)",
+            transition: "transform 0.3s ease",
+            zIndex: 100,
+            display: "flex",
+            flexDirection: "column",
+            gap: "1rem",
+          }}
+        >
+          {dbUser && (
+            <div style={{ color: "#5d4037", fontSize: "clamp(15px, 4vw, 18px)", fontWeight: 600, marginBottom: "1rem" }}>
+              {displayName}
+            </div>
+          )}
+          <Link to="/shop" onClick={() => setMobileMenuOpen(false)} style={{ color: "#e91e63", textDecoration: "none", fontSize: "1.1rem", fontWeight: 600 }}>Kedai</Link>
+          {isAffiliate && <Link to="/affiliate" onClick={() => setMobileMenuOpen(false)} style={{ color: "#e91e63", textDecoration: "none", fontSize: "1.1rem", fontWeight: 600 }}>Dashboard</Link>}
+          {isAdmin && <Link to="/admin" onClick={() => setMobileMenuOpen(false)} style={{ color: "#e91e63", textDecoration: "none", fontSize: "1.1rem", fontWeight: 600 }}>Admin</Link>}
+          <button onClick={() => { setMobileMenuOpen(false); navigate("/cart"); }} style={{ ...btnGradient, padding: "8px 12px", borderRadius: 20, width: "100%" }}>
+            Troli
+            {itemCount > 0 && (
+              <span style={{ marginLeft: 8, background: "#e91e63", color: "#fff", borderRadius: "50%", width: 22, height: 22, fontSize: 11, display: "inline-flex", alignItems: "center", justifyContent: "center", fontWeight: 700 }}>
+                {itemCount}
+              </span>
+            )}
+          </button>
+          <div style={{ flexGrow: 1 }} />
+          {dbUser ? (
+            <button onClick={() => { logout(); setMobileMenuOpen(false); }} style={{ ...btnGradient, padding: "10px", borderRadius: 20 }}>Keluar</button>
+          ) : (
+            <button onClick={() => { setMobileMenuOpen(false); navigate("/login"); }} style={{ ...btnGradient, padding: "10px", borderRadius: 20 }}>Log Masuk</button>
+          )}
+        </div>
       </div>
     </nav>
   );
