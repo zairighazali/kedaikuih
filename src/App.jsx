@@ -92,13 +92,15 @@ function Navbar() {
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           style={{
-            background: "none",
+            background: "#fff",
             border: "none",
             fontSize: 24,
             color: "#e91e63",
             cursor: "pointer",
             transition: "transform 0.3s ease",
-            transform: mobileMenuOpen ? "rotate(90deg)" : "rotate(0)"
+            transform: mobileMenuOpen ? "rotate(90deg)" : "rotate(0)",
+            borderRadius: "50%",
+            padding: "4px"
           }}
           className="mobile-menu-btn"
         >
@@ -133,7 +135,7 @@ function Navbar() {
         {mobileMenuOpen && (
           <div
             onClick={() => setMobileMenuOpen(false)}
-            style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, background: "rgba(0,0,0,0.3)", zIndex: 90 }}
+            style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, background: "rgba(0,0,0,0.45)", zIndex: 90 }}
           />
         )}
 
@@ -146,9 +148,9 @@ function Navbar() {
             width: "75%",
             maxWidth: 300,
             height: "100%",
-            background: "rgba(255,255,255,0.98)",
+            background: "#fff",
             padding: "2rem 1.5rem",
-            boxShadow: "2px 0 8px rgba(0,0,0,0.1)",
+            borderRight: "2px solid #fce4ec", boxShadow: "4px 0 20px rgba(233,30,99,0.15)",
             transform: mobileMenuOpen ? "translateX(0)" : "translateX(-100%)",
             transition: "transform 0.3s ease",
             zIndex: 100,
@@ -157,14 +159,22 @@ function Navbar() {
             gap: "1rem",
           }}
         >
+          {/* Drawer brand header */}
+          <div style={{ display: "flex", alignItems: "center", gap: 10, paddingBottom: "1rem", borderBottom: "2px solid #fce4ec", marginBottom: "0.5rem" }}>
+            <span style={{ fontSize: 28 }}></span>
+            <div>
+              <div style={{ fontFamily: "'Playfair Display',serif", color: "#e91e63", fontSize: 16, fontWeight: 700 }}>Biskut Raya</div>
+              <div style={{ color: "#ffb74d", fontSize: 9, letterSpacing: 2, fontWeight: 600 }}>SWEET DELIGHTS</div>
+            </div>
+          </div>
           {dbUser && (
-            <div style={{ color: "#5d4037", fontSize: "clamp(15px, 4vw, 18px)", fontWeight: 600, marginBottom: "1rem" }}>
+            <div style={{ background: "#fce4ec", borderRadius: 10, padding: "8px 12px", color: "#5d4037", fontSize: 14, fontWeight: 600 }}>
               {displayName}
             </div>
           )}
-          <Link to="/shop" onClick={() => setMobileMenuOpen(false)} style={{ color: "#e91e63", textDecoration: "none", fontSize: "1.1rem", fontWeight: 600 }}>Kedai</Link>
-          {isAffiliate && <Link to="/affiliate" onClick={() => setMobileMenuOpen(false)} style={{ color: "#e91e63", textDecoration: "none", fontSize: "1.1rem", fontWeight: 600 }}>Dashboard</Link>}
-          {isAdmin && <Link to="/admin" onClick={() => setMobileMenuOpen(false)} style={{ color: "#e91e63", textDecoration: "none", fontSize: "1.1rem", fontWeight: 600 }}>Admin</Link>}
+          <Link to="/shop" onClick={() => setMobileMenuOpen(false)} style={{ color: "#e91e63", textDecoration: "none", fontSize: "1.1rem", fontWeight: 600, padding: "10px 14px", borderRadius: 10, background: "#fef7f0", display: "block" }}>Kedai</Link>
+          {isAffiliate && <Link to="/affiliate" onClick={() => setMobileMenuOpen(false)} style={{ color: "#e91e63", textDecoration: "none", fontSize: "1.1rem", fontWeight: 600, padding: "10px 14px", borderRadius: 10, background: "#fef7f0", display: "block" }}>Dashboard</Link>}
+          {isAdmin && <Link to="/admin" onClick={() => setMobileMenuOpen(false)} style={{ color: "#e91e63", textDecoration: "none", fontSize: "1.1rem", fontWeight: 600, padding: "10px 14px", borderRadius: 10, background: "#fef7f0", display: "block" }}>Admin</Link>}
           <button onClick={() => { setMobileMenuOpen(false); navigate("/cart"); }} style={{ ...btnGradient, padding: "8px 12px", borderRadius: 20, width: "100%" }}>
             Troli
             {itemCount > 0 && (
